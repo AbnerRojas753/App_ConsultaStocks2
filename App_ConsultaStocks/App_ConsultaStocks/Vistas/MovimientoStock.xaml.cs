@@ -18,6 +18,7 @@ namespace App_ConsultaStocks.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MovimientoStock : ContentPage
     {
+        private const string SinUbicacionTexto = "(Sin ubicación)";
         private readonly int v_Id_CD;
         private readonly string _idAlmacen;
         // seleccionado en la lista
@@ -28,6 +29,7 @@ namespace App_ConsultaStocks.Vistas
             InitializeComponent();
             v_Id_CD = idCD;
             _idAlmacen = idAlmacen;
+            ActualizarEstadoUbicacion(null);
 
             // Suscribirse a notificación para recargar cuando se mueva stock
             MessagingCenter.Subscribe<MovimientoStockProcesar, string>(this, "StockMovido", (sender, ubicacion) =>
@@ -50,9 +52,7 @@ namespace App_ConsultaStocks.Vistas
             bool existe = await ValidarUbicacionExiste(ubicacion);
             if (existe)
             {
-                // Guardar la ubicación activa en el label
-                lblUbicacion.Text = ubicacion;
-                lblUbicacion.TextColor = Color.Green;
+                ActualizarEstadoUbicacion(ubicacion);
 
                 // Limpiar el entry para permitir escanear otra ubicación
                 entryUbicacion.Text = "";
@@ -88,9 +88,7 @@ namespace App_ConsultaStocks.Vistas
                     bool existe = await ValidarUbicacionExiste(ubicacion);
                     if (existe)
                     {
-                        // Guardar la ubicación activa en el label
-                        lblUbicacion.Text = ubicacion;
-                        lblUbicacion.TextColor = Color.Green;
+                        ActualizarEstadoUbicacion(ubicacion);
 
                         // Limpiar el entry para permitir escanear otra ubicación
                         entryUbicacion.Text = "";
@@ -149,6 +147,7 @@ namespace App_ConsultaStocks.Vistas
                 {
                     resultados.Add(new StockItem
                     {
+                        ID_UBICACION = row.Table.Columns.Contains("ID_UBICACION") ? row["ID_UBICACION"].ToString() : ubicacion,
                         ID_ARTICULO = row["ID_ARTICULO"].ToString(),
                         ID_LOTE = row["ID_LOTE"].ToString(),
                         STOCK = Convert.ToDecimal(row["STOCK"]),
@@ -156,16 +155,12 @@ namespace App_ConsultaStocks.Vistas
                     });
                 }
 
-                // Limpiar selección anterior al cargar nueva lista
-                selectedStockItem = null;
-                listViewResultados.ItemsSource = resultados;
+                CargarResultadosEnLista(resultados);
 
                 if (resultados.Count == 0)
                 {
-                    lblUbicacion.Text = "(Sin ubicación)";
-                    lblUbicacion.TextColor = Color.Red;
                     await DisplayAlert("Info", "No hay stock en esta ubicación", "Ok");
-                    entryUbicacion.Focus();
+                    entryArticulo.Focus();
                 }
             }
             catch (Exception ex)
@@ -187,15 +182,7 @@ namespace App_ConsultaStocks.Vistas
         private async Task BuscarArticuloAsync()
         {
             string codigoEscaneado = entryArticulo.Text?.Trim();
-            string ubicacion = lblUbicacion.Text?.Trim();
-
-            // Validar que hay una ubicación activa
-            if (string.IsNullOrEmpty(ubicacion) || ubicacion == "(Sin ubicación)")
-            {
-                await DisplayAlert("Error", "Primero debe seleccionar una ubicación", "Ok");
-                entryUbicacion.Focus();
-                return;
-            }
+            string ubicacion = ObtenerUbicacionActiva();
 
             if (string.IsNullOrEmpty(codigoEscaneado))
             {
@@ -217,42 +204,18 @@ namespace App_ConsultaStocks.Vistas
 
             try
             {
-                DataTable dt = new DataTable();
+                DataTable dt = string.IsNullOrEmpty(ubicacion)
+                    ? await BuscarArticuloEnAlmacenAsync(idArticulo)
+                    : await BuscarArticuloEnUbicacionAsync(idArticulo, ubicacion);
 
-                if (v_Id_CD == 1)
+                if (dt.Rows.Count > 0)
                 {
-                    Conexion.Abrir_WMS_LIM();
-                    SqlCommand cmd = new SqlCommand("usp_BuscarArticuloEnUbicacion", Conexion.conectar_WMS_LIM);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ID_ALMACEN", SqlDbType.VarChar, 15).Value = _idAlmacen;
-                    cmd.Parameters.Add("@ID_UBICACION", SqlDbType.VarChar, 31).Value = ubicacion;
-                    cmd.Parameters.Add("@ID_ARTICULO", SqlDbType.VarChar, 31).Value = idArticulo;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dt);
-                    Conexion.Cerrar_WMS_LIM();
-                }
-                else
-                {
-                    Conexion.Abrir_WMS_ATE();
-                    SqlCommand cmd = new SqlCommand("usp_BuscarArticuloEnUbicacion", Conexion.conectar_WMS_ATE);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ID_ALMACEN", SqlDbType.VarChar, 15).Value = _idAlmacen;
-                    cmd.Parameters.Add("@ID_UBICACION", SqlDbType.VarChar, 31).Value = ubicacion;
-                    cmd.Parameters.Add("@ID_ARTICULO", SqlDbType.VarChar, 31).Value = idArticulo;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dt);
-                    Conexion.Cerrar_WMS_ATE();
-                }
-
-                int Filas = dt.Rows.Count;
-
-                if (Filas > 0)
-                {
-                    List<StockItem> resultados = new List<StockItem>();
+                    var resultados = new List<StockItem>();
                     foreach (DataRow row in dt.Rows)
                     {
                         resultados.Add(new StockItem
                         {
+                            ID_UBICACION = row.Table.Columns.Contains("ID_UBICACION") ? row["ID_UBICACION"].ToString() : ubicacion,
                             ID_ARTICULO = row["ID_ARTICULO"].ToString(),
                             ID_LOTE = row["ID_LOTE"].ToString(),
                             STOCK = Convert.ToDecimal(row["STOCK"]),
@@ -260,20 +223,19 @@ namespace App_ConsultaStocks.Vistas
                         });
                     }
 
-                    // Limpiar selección anterior al filtrar lista
-                    selectedStockItem = null;
-                    listViewResultados.ItemsSource = resultados;
-
-                    // Limpiar el entry de artículo para permitir buscar otro
+                    CargarResultadosEnLista(resultados);
                     entryArticulo.Text = "";
                     listViewResultados.Focus();
                 }
                 else
                 {
-                    // No limpiar la lista completa, mantener el stock de la ubicación
-                    // Solo limpiar el entry de artículo para permitir buscar otro
                     entryArticulo.Text = "";
-                    await DisplayAlert("Info", "No hay stock en esta ubicación para este artículo", "Ok");
+                    await DisplayAlert(
+                        "Info",
+                        string.IsNullOrEmpty(ubicacion)
+                            ? "No se encontro stock para este articulo en ninguna ubicacion del almacen"
+                            : "No hay stock en esta ubicación para este artículo",
+                        "Ok");
                     entryArticulo.Focus();
                 }
             }
@@ -299,16 +261,109 @@ namespace App_ConsultaStocks.Vistas
                 return;
             }
 
-            string ubicacion = lblUbicacion.Text?.Trim();
-            if (string.IsNullOrEmpty(ubicacion) || ubicacion == "(Sin ubicación)")
+            string ubicacion = selectedStockItem.ID_UBICACION?.Trim();
+            if (string.IsNullOrEmpty(ubicacion))
             {
-                await DisplayAlert("Error", "No hay una ubicación activa", "Ok");
-                entryUbicacion.Focus();
+                await DisplayAlert("Error", "La fila seleccionada no tiene ubicación origen", "Ok");
                 return;
             }
 
-            // Navegar a la pantalla de procesamiento pasando los datos necesarios (incluye descripción)
             await Navigation.PushAsync(new MovimientoStockProcesar(selectedStockItem.ID_ARTICULO, selectedStockItem.ID_LOTE, selectedStockItem.STOCK, ubicacion, _idAlmacen, selectedStockItem.DESCRIPCION, v_Id_CD));
+        }
+
+        private void btnLimpiarUbicacion_Clicked(object sender, EventArgs e)
+        {
+            ActualizarEstadoUbicacion(null);
+            entryUbicacion.Text = "";
+            entryArticulo.Focus();
+        }
+
+        private string ObtenerUbicacionActiva()
+        {
+            string ubicacion = lblUbicacion.Text?.Trim();
+            return string.IsNullOrEmpty(ubicacion) || ubicacion == SinUbicacionTexto ? null : ubicacion;
+        }
+
+        private void ActualizarEstadoUbicacion(string ubicacion)
+        {
+            bool tieneUbicacion = !string.IsNullOrWhiteSpace(ubicacion);
+
+            lblUbicacion.Text = tieneUbicacion ? ubicacion : SinUbicacionTexto;
+            lblUbicacion.TextColor = tieneUbicacion ? Color.Green : Color.Red;
+
+            lblModoBusqueda.Text = tieneUbicacion
+                ? "CON UBICACION ACTIVA - Busqueda filtrada por la ubicacion seleccionada"
+                : "SIN UBICACION - Busqueda global por articulo en el almacen";
+            lblModoBusqueda.TextColor = tieneUbicacion ? Color.DarkGreen : Color.Red;
+        }
+
+        private void CargarResultadosEnLista(List<StockItem> resultados)
+        {
+            selectedStockItem = null;
+            listViewResultados.SelectedItem = null;
+            listViewResultados.ItemsSource = resultados;
+        }
+
+        private async Task<DataTable> BuscarArticuloEnUbicacionAsync(string idArticulo, string ubicacion)
+        {
+            var dt = new DataTable();
+
+            if (v_Id_CD == 1)
+            {
+                Conexion.Abrir_WMS_LIM();
+                SqlCommand cmd = new SqlCommand("usp_BuscarArticuloEnUbicacion", Conexion.conectar_WMS_LIM);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID_ALMACEN", SqlDbType.VarChar, 15).Value = _idAlmacen;
+                cmd.Parameters.Add("@ID_UBICACION", SqlDbType.VarChar, 31).Value = ubicacion;
+                cmd.Parameters.Add("@ID_ARTICULO", SqlDbType.VarChar, 31).Value = idArticulo;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                Conexion.Cerrar_WMS_LIM();
+            }
+            else
+            {
+                Conexion.Abrir_WMS_ATE();
+                SqlCommand cmd = new SqlCommand("usp_BuscarArticuloEnUbicacion", Conexion.conectar_WMS_ATE);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID_ALMACEN", SqlDbType.VarChar, 15).Value = _idAlmacen;
+                cmd.Parameters.Add("@ID_UBICACION", SqlDbType.VarChar, 31).Value = ubicacion;
+                cmd.Parameters.Add("@ID_ARTICULO", SqlDbType.VarChar, 31).Value = idArticulo;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                Conexion.Cerrar_WMS_ATE();
+            }
+
+            return dt;
+        }
+
+        private async Task<DataTable> BuscarArticuloEnAlmacenAsync(string idArticulo)
+        {
+            var dt = new DataTable();
+
+            if (v_Id_CD == 1)
+            {
+                Conexion.Abrir_WMS_LIM();
+                SqlCommand cmd = new SqlCommand("usp_BuscarArticuloEnAlmacen", Conexion.conectar_WMS_LIM);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID_ALMACEN", SqlDbType.VarChar, 15).Value = _idAlmacen;
+                cmd.Parameters.Add("@ID_ARTICULO", SqlDbType.VarChar, 31).Value = idArticulo;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                Conexion.Cerrar_WMS_LIM();
+            }
+            else
+            {
+                Conexion.Abrir_WMS_ATE();
+                SqlCommand cmd = new SqlCommand("usp_BuscarArticuloEnAlmacen", Conexion.conectar_WMS_ATE);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID_ALMACEN", SqlDbType.VarChar, 15).Value = _idAlmacen;
+                cmd.Parameters.Add("@ID_ARTICULO", SqlDbType.VarChar, 31).Value = idArticulo;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                Conexion.Cerrar_WMS_ATE();
+            }
+
+            return dt;
         }
 
         private async Task<bool> ValidarUbicacionExiste(string idUbicacion)
@@ -352,6 +407,7 @@ namespace App_ConsultaStocks.Vistas
 
     public class StockItem
     {
+        public string ID_UBICACION { get; set; }
         public string ID_ARTICULO { get; set; }
         public string ID_LOTE { get; set; }
         public decimal STOCK { get; set; }
