@@ -2,13 +2,13 @@
 <#
 .SYNOPSIS
     Script de build automatizado para App_ConsultaStocks (Android)
-    Compila, firma y genera el APK listo para distribución
+    Compila, firma y genera el APK listo para distribucion
 
 .DESCRIPTION
-    Este script automatiza todo el proceso de compilación:
+    Este script automatiza todo el proceso de compilacion:
     1. Restaura paquetes NuGet
     2. Limpia builds anteriores
-    3. Incrementa automáticamente el versionCode
+    3. Incrementa automaticamente el versionCode
     4. Compila en Release
     5. Firma el APK con el keystore
     6. Copia el APK final a la carpeta de salida
@@ -24,62 +24,63 @@
     - Keystore configurado en build-config.psd1
 #>
 
-# Configuración de codificación
+# Configuracion de codificacion
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
-# ═════════════════════════════════════════════════════════════════════════════
-# CONFIGURACIÓN - Modifica esto según tu entorno
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
+# CONFIGURACION - Modifica esto segun tu entorno
+# =============================================================================
 
 $Config = @{
-    # Rutas del proyecto (ajústalas a tu PC)
+    # Rutas del proyecto (ajustalas a tu PC)
     ProjectRoot    = "C:\Proyectos\App_ConsultaStocks2"  # <-- CAMBIA ESTO
     SolutionFile   = "App_ConsultaStocks2.sln"
     AndroidProject = "App_ConsultaStocks\App_ConsultaStocks.Android\App_ConsultaStocks.Android.csproj"
     
-    # Configuración del build
+    # Configuracion del build
     Configuration  = "Release"
     Platform       = "AnyCPU"
     
-    # Keystore (ajústalos a tus datos)
+    # Keystore (ajustalos a tus datos)
     KeystorePath   = ""  # Ej: "C:\Keys\miapp.keystore"
     KeystorePass   = ""  # Password del keystore
     KeyAlias       = ""  # Alias de la clave
     KeyPass        = ""  # Password de la clave (generalmente igual al keystore)
     
     # Opciones de build
-    IncrementVersionCode = $true    # Incrementar versionCode automáticamente
-    BuildAAB            = $false    # Generar también AAB (para Play Store)
+    IncrementVersionCode = $true    # Incrementar versionCode automaticamente
+    BuildAAB            = $false    # Generar tambien AAB (para Play Store)
     
     # Carpeta de salida
     OutputDirectory     = "C:\Builds\PDA"  # <-- CAMBIA ESTO
 }
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # FUNCIONES AUXILIARES
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 function Write-Header {
     param([string]$Message)
-    Write-Host "`n═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "================================================================" -ForegroundColor Cyan
     Write-Host "  $Message" -ForegroundColor Cyan
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host "================================================================" -ForegroundColor Cyan
 }
 
 function Write-Success {
     param([string]$Message)
-    Write-Host "✅ $Message" -ForegroundColor Green
+    Write-Host "[OK] $Message" -ForegroundColor Green
 }
 
-function Write-Error {
+function Write-ErrorMsg {
     param([string]$Message)
-    Write-Host "❌ $Message" -ForegroundColor Red
+    Write-Host "[ERROR] $Message" -ForegroundColor Red
 }
 
-function Write-Warning {
+function Write-WarningMsg {
     param([string]$Message)
-    Write-Host "⚠️  $Message" -ForegroundColor Yellow
+    Write-Host "[ADVERTENCIA] $Message" -ForegroundColor Yellow
 }
 
 function Test-Prerequisites {
@@ -111,7 +112,7 @@ function Test-Prerequisites {
         }
         
         if (-not $script:MSBuildPath) {
-            Write-Error "No se encontró MSBuild. ¿Tienes Visual Studio instalado?"
+            Write-ErrorMsg "No se encontro MSBuild. Tienes Visual Studio instalado?"
             exit 1
         }
     } else {
@@ -136,7 +137,7 @@ function Test-Prerequisites {
         }
         
         if (-not $script:NuGetPath) {
-            Write-Warning "NuGet no encontrado. Intentando usar restauración integrada..."
+            Write-WarningMsg "NuGet no encontrado. Intentando usar restauracion integrada..."
             $script:NuGetPath = $null
         }
     } else {
@@ -146,47 +147,43 @@ function Test-Prerequisites {
     # Verificar existencia del proyecto
     $fullProjectPath = Join-Path $Config.ProjectRoot $Config.AndroidProject
     if (-not (Test-Path $fullProjectPath)) {
-        Write-Error "No se encontró el proyecto en: $fullProjectPath"
-        Write-Host "Verifica la ruta en la configuración (ProjectRoot)" -ForegroundColor Yellow
+        Write-ErrorMsg "No se encontro el proyecto en: $fullProjectPath"
+        Write-Host "Verifica la ruta en la configuracion (ProjectRoot)" -ForegroundColor Yellow
         exit 1
     }
     Write-Success "Proyecto encontrado: $($Config.AndroidProject)"
     
-    # Verificar keystore si está configurado
+    # Verificar keystore si esta configurado
     if ($Config.KeystorePath -and -not (Test-Path $Config.KeystorePath)) {
-        Write-Warning "Keystore no encontrado en: $($Config.KeystorePath)"
-        Write-Host "El APK se generará pero NO estará firmado para distribución" -ForegroundColor Yellow
+        Write-WarningMsg "Keystore no encontrado en: $($Config.KeystorePath)"
+        Write-Host "El APK se generara pero NO estara firmado para distribucion" -ForegroundColor Yellow
     }
 }
 
 function Invoke-VersionIncrement {
-    Write-Header "ACTUALIZANDO VERSIÓN"
+    Write-Header "ACTUALIZANDO VERSION"
     
     $manifestPath = Join-Path $Config.ProjectRoot "App_ConsultaStocks\App_ConsultaStocks.Android\Properties\AndroidManifest.xml"
     
     if (-not (Test-Path $manifestPath)) {
-        Write-Warning "No se encontró AndroidManifest.xml"
+        Write-WarningMsg "No se encontro AndroidManifest.xml"
         return
     }
     
     [xml]$manifest = Get-Content $manifestPath
-    $currentVersionCode = [int]$manifest.manifest.'versionCode'
-    $currentVersionName = $manifest.manifest.'versionName'
+    $currentVersionCode = [int]$manifest.manifest.versionCode
+    $currentVersionName = $manifest.manifest.versionName
     
-    Write-Host "Versión actual: $currentVersionName (code: $currentVersionCode)" -ForegroundColor Gray
+    Write-Host "Version actual: $currentVersionName (code: $currentVersionCode)" -ForegroundColor Gray
     
     if ($Config.IncrementVersionCode) {
         $newVersionCode = $currentVersionCode + 1
-        $manifest.manifest.'versionCode' = $newVersionCode.ToString()
-        
-        # Opcional: actualizar versionName (ej: 1.0 -> 1.0.1)
-        # $newVersionName = "$currentVersionName.$newVersionCode"
-        # $manifest.manifest.'versionName' = $newVersionName
+        $manifest.manifest.versionCode = $newVersionCode.ToString()
         
         $manifest.Save($manifestPath)
-        Write-Success "VersionCode actualizado: $currentVersionCode → $newVersionCode"
+        Write-Success "VersionCode actualizado: $currentVersionCode -> $newVersionCode"
     } else {
-        Write-Host "Incremento de versión desactivado" -ForegroundColor Gray
+        Write-Host "Incremento de version desactivado" -ForegroundColor Gray
     }
 }
 
@@ -205,7 +202,7 @@ function Invoke-NuGetRestore {
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Paquetes NuGet restaurados"
     } else {
-        Write-Error "Error al restaurar paquetes NuGet"
+        Write-ErrorMsg "Error al restaurar paquetes NuGet"
         exit 1
     }
 }
@@ -221,7 +218,7 @@ function Invoke-CleanBuild {
         /p:Platform=$($Config.Platform) `
         /v:quiet
     
-    # Limpiar carpetas bin y obj manualmente también
+    # Limpiar carpetas bin y obj manualmente tambien
     $androidProjectDir = Split-Path $projectPath -Parent
     $foldersToClean = @("bin", "obj")
     foreach ($folder in $foldersToClean) {
@@ -239,7 +236,7 @@ function Invoke-BuildAPK {
     
     $projectPath = Join-Path $Config.ProjectRoot $Config.AndroidProject
     
-    # Parámetros base
+    # Parametros base
     $buildParams = @(
         $projectPath
         "/t:SignAndroidPackage"
@@ -261,14 +258,14 @@ function Invoke-BuildAPK {
         Write-Host "Firmando APK con keystore..." -ForegroundColor Gray
     } else {
         $buildParams += "/p:AndroidKeyStore=false"
-        Write-Warning "Compilando APK sin firma (debug)"
+        Write-WarningMsg "Compilando APK sin firma (debug)"
     }
     
     # Ejecutar build
     & $script:MSBuildPath @buildParams
     
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "Error en la compilación. Revisa los mensajes de arriba."
+        Write-ErrorMsg "Error en la compilacion. Revisa los mensajes de arriba."
         exit 1
     }
     
@@ -300,7 +297,7 @@ function Copy-OutputFiles {
         $manifestPath = Join-Path $projectDir "Properties\AndroidManifest.xml"
         if (Test-Path $manifestPath) {
             [xml]$manifest = Get-Content $manifestPath
-            $versionCode = "_v$($manifest.manifest.'versionCode')"
+            $versionCode = "_v$($manifest.manifest.versionCode)"
         }
         
         foreach ($apk in $apkFiles) {
@@ -310,13 +307,13 @@ function Copy-OutputFiles {
             Write-Success "APK copiado a: $destination"
         }
         
-        # También copiar el archivo de mapeo si existe (ProGuard)
+        # Tambien copiar el archivo de mapeo si existe (ProGuard)
         $mappingFile = Join-Path $binPath "mapping.txt"
         if (Test-Path $mappingFile) {
             Copy-Item $mappingFile (Join-Path $Config.OutputDirectory "mapping_$timestamp.txt") -Force
         }
     } else {
-        Write-Error "No se encontraron archivos APK en: $binPath"
+        Write-ErrorMsg "No se encontraron archivos APK en: $binPath"
         exit 1
     }
 }
@@ -324,55 +321,57 @@ function Copy-OutputFiles {
 function Show-Summary {
     Write-Header "BUILD COMPLETADO"
     
-    Write-Host "`n📁 Archivos generados en:" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Archivos generados en:" -ForegroundColor White
     Write-Host "   $($Config.OutputDirectory)" -ForegroundColor Cyan
     
-    Write-Host "`n📱 Próximos pasos:" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Proximos pasos:" -ForegroundColor White
     Write-Host "   1. Instala el APK en tu dispositivo:" -ForegroundColor Gray
     Write-Host "      adb install -r 'ruta\del\apk.apk'" -ForegroundColor DarkCyan
-    Write-Host "   2. O copia el APK a tu dispositivo e instálalo" -ForegroundColor Gray
+    Write-Host "   2. O copia el APK a tu dispositivo e instalalo" -ForegroundColor Gray
     Write-Host "   3. Para Play Store, sube el AAB (si lo generaste)" -ForegroundColor Gray
     
-    Write-Host "`n💡 Tip:" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "Tip:" -ForegroundColor Yellow
     Write-Host "   Este script se puede ejecutar desde CI/CD o como tarea programada" -ForegroundColor Gray
     
     # Abrir carpeta de salida
-    $openFolder = Read-Host "`n¿Abrir carpeta de salida? (S/N)"
+    $openFolder = Read-Host "Abrir carpeta de salida? (S/N)"
     if ($openFolder -eq 'S' -or $openFolder -eq 's') {
         Invoke-Item $Config.OutputDirectory
     }
 }
 
-# ═════════════════════════════════════════════════════════════════════════════
-# EJECUCIÓN PRINCIPAL
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
+# EJECUCION PRINCIPAL
+# =============================================================================
 
 $ErrorActionPreference = "Stop"
 
-# Título de la ventana
+# Titulo de la ventana
 $host.ui.RawUI.WindowTitle = "Build App_ConsultaStocks (Android)"
 
 try {
     Clear-Host
-    Write-Host @"
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║           BUILD AUTOMATIZADO - App_ConsultaStocks             ║
-║                        Android (Xamarin)                      ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
-"@ -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "================================================================" -ForegroundColor Cyan
+    Write-Host "           BUILD AUTOMATIZADO - App_ConsultaStocks             " -ForegroundColor Cyan
+    Write-Host "                        Android (Xamarin)                       " -ForegroundColor Cyan
+    Write-Host "================================================================" -ForegroundColor Cyan
+    Write-Host ""
     
-    # Verificar configuración
+    # Verificar configuracion
     if ($Config.ProjectRoot -eq "C:\Proyectos\App_ConsultaStocks2" -or 
         $Config.OutputDirectory -eq "C:\Builds\PDA") {
-        Write-Warning "Estás usando rutas por defecto. Edita el archivo y configura tus rutas reales."
-        Write-Host "Busca la sección 'CONFIGURACIÓN' en este archivo y modifica:`n" -ForegroundColor Yellow
+        Write-WarningMsg "Estas usando rutas por defecto. Edita el archivo y configura tus rutas reales."
+        Write-Host "Busca la seccion 'CONFIGURACION' en este archivo y modifica:" -ForegroundColor Yellow
+        Write-Host ""
         Write-Host "  - ProjectRoot: Ruta donde clonaste el proyecto" -ForegroundColor White
         Write-Host "  - OutputDirectory: Donde quieres los APK" -ForegroundColor White
         Write-Host "  - KeystorePath, KeystorePass, KeyAlias, KeyPass: Datos de firma" -ForegroundColor White
         Write-Host ""
-        $continue = Read-Host "¿Continuar de todos modos? (S/N)"
+        $continue = Read-Host "Continuar de todos modos? (S/N)"
         if ($continue -ne 'S' -and $continue -ne 's') {
             exit 0
         }
@@ -388,10 +387,11 @@ try {
     Show-Summary
     
 } catch {
-    Write-Error "Error inesperado: $_"
+    Write-ErrorMsg "Error inesperado: $_"
     Write-Host $_.ScriptStackTrace -ForegroundColor DarkGray
     exit 1
 } finally {
-    Write-Host "`nPresiona cualquier tecla para cerrar..." -ForegroundColor Gray
+    Write-Host ""
+    Write-Host "Presiona cualquier tecla para cerrar..." -ForegroundColor Gray
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
