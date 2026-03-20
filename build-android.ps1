@@ -34,7 +34,7 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 
 $Config = @{
     # Rutas del proyecto (ajustalas a tu PC)
-    ProjectRoot    = "C:\Proyectos\App_ConsultaStocks2"  # <-- CAMBIA ESTO
+    ProjectRoot    = "C:\devEmpresa\App_ConsultaStocks2"  # Ruta del proyecto
     SolutionFile   = "App_ConsultaStocks2.sln"
     AndroidProject = "App_ConsultaStocks\App_ConsultaStocks.Android\App_ConsultaStocks.Android.csproj"
     
