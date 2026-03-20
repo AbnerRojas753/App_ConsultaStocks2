@@ -55,8 +55,12 @@ $Config = @{
     IncrementVersionCode = $false   # Incrementar versionCode automaticamente (manual para evitar conflictos git)
     BuildAAB            = $false    # Generar tambien AAB (para Play Store)
     
-    # Carpeta de salida
-    OutputDirectory     = "C:\Builds\PDA"  # <-- CAMBIA ESTO
+    # Carpeta de salida. Si es relativa, se resuelve dentro del proyecto.
+    OutputDirectory     = "Builds\PDA"
+}
+
+if (-not [System.IO.Path]::IsPathRooted($Config.OutputDirectory)) {
+    $Config.OutputDirectory = Join-Path $Config.ProjectRoot $Config.OutputDirectory
 }
 
 # =============================================================================
@@ -337,10 +341,6 @@ function Show-Summary {
     Write-Host "   2. O copia el APK a tu dispositivo e instalalo" -ForegroundColor Gray
     Write-Host "   3. Para Play Store, sube el AAB (si lo generaste)" -ForegroundColor Gray
     
-    Write-Host ""
-    Write-Host "Tip:" -ForegroundColor Yellow
-    Write-Host "   Este script se puede ejecutar desde CI/CD o como tarea programada" -ForegroundColor Gray
-    
     # Abrir carpeta de salida
     $openFolder = Read-Host "Abrir carpeta de salida? (S/N)"
     if ($openFolder -eq 'S' -or $openFolder -eq 's') {
@@ -368,7 +368,7 @@ try {
     
     # Verificar configuracion
     if ($Config.ProjectRoot -eq "C:\Proyectos\App_ConsultaStocks2" -or 
-        $Config.OutputDirectory -eq "C:\Builds\PDA") {
+        $Config.OutputDirectory -eq (Join-Path $Config.ProjectRoot "Builds\PDA")) {
         Write-WarningMsg "Estas usando rutas por defecto. Edita el archivo y configura tus rutas reales."
         Write-Host "Busca la seccion 'CONFIGURACION' en este archivo y modifica:" -ForegroundColor Yellow
         Write-Host ""
