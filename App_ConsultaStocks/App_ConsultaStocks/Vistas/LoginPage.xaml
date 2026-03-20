@@ -53,7 +53,7 @@
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
-                        <Label Text="Versión : 06/03/2026 0.1"/>
+                        <Label Text="Versión : 20/03/2026 0.1"/>
                     </StackLayout>
 
 
