@@ -46,10 +46,10 @@ $Config = @{
     # Opcion 1: DEBUG - Usa el keystore por defecto de Android (no pide password)
     # Opcion 2: PRODUCCION - Usa tu propio keystore (el script te preguntara la password)
     KeystorePath   = "local-secrets\android\admin.keystore"
-    KeystorePass   = ""
+    KeystorePass   = "123456"
     KeyAlias       = "admin"
-    KeyPass        = ""
-    AskForPassword = $true
+    KeyPass        = "123456"
+    AskForPassword = $false
     
     # Opciones de build
     IncrementVersionCode = $false   # Incrementar versionCode automaticamente (manual para evitar conflictos git)
