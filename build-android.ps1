@@ -214,20 +214,22 @@ function Invoke-CleanBuild {
     Write-Header "LIMPIANDO BUILDS ANTERIORES"
     
     $projectPath = Join-Path $Config.ProjectRoot $Config.AndroidProject
-    
-    & $script:MSBuildPath $projectPath `
-        /t:Clean `
-        /p:Configuration=$($Config.Configuration) `
-        /p:Platform=$($Config.Platform) `
-        /v:quiet
-    
-    # Limpiar carpetas bin y obj manualmente tambien
+
+    # En este proyecto, el target Clean de Xamarin.Android puede fallar si
+    # algun classes.jar queda bloqueado. Para alinearnos con el flujo estable
+    # que funciona en Visual Studio, limpiamos bin/obj de forma explicita.
     $androidProjectDir = Split-Path $projectPath -Parent
     $foldersToClean = @("bin", "obj")
     foreach ($folder in $foldersToClean) {
         $fullPath = Join-Path $androidProjectDir $folder
         if (Test-Path $fullPath) {
-            Remove-Item $fullPath -Recurse -Force -ErrorAction SilentlyContinue
+            try {
+                Remove-Item $fullPath -Recurse -Force -ErrorAction Stop
+                Write-Host "Eliminado: $fullPath" -ForegroundColor Gray
+            } catch {
+                Write-ErrorMsg "No se pudo limpiar '$fullPath'. Cierra Visual Studio/emuladores y vuelve a intentar."
+                throw
+            }
         }
     }
     
@@ -239,15 +241,15 @@ function Invoke-BuildAPK {
     
     $projectPath = Join-Path $Config.ProjectRoot $Config.AndroidProject
     
-    # Parametros base
+    # Alineado al flujo que compila correctamente desde Visual Studio:
+    # compilar y empaquetar usando PackageForAndroid, sin forzar propiedades
+    # extra de empaquetado que puedan alterar la resolucion de dependencias.
     $buildParams = @(
         $projectPath
-        "/t:SignAndroidPackage"
+        "/restore"
+        "/t:PackageForAndroid"
         "/p:Configuration=$($Config.Configuration)"
         "/p:Platform=$($Config.Platform)"
-        "/p:AndroidPackageFormat=apk"
-        "/p:EmbedAssembliesIntoApk=true"
-        "/p:AndroidUseSharedRuntime=false"
         "/v:minimal"
     )
     
@@ -258,10 +260,10 @@ function Invoke-BuildAPK {
         $buildParams += "/p:AndroidSigningStorePass=$($Config.KeystorePass)"
         $buildParams += "/p:AndroidSigningKeyAlias=$($Config.KeyAlias)"
         $buildParams += "/p:AndroidSigningKeyPass=$($Config.KeyPass)"
+        $buildParams += "/p:AndroidPackageFormat=apk"
         Write-Host "Firmando APK con keystore..." -ForegroundColor Gray
     } else {
-        $buildParams += "/p:AndroidKeyStore=false"
-        Write-WarningMsg "Compilando APK sin firma (debug)"
+        Write-WarningMsg "Compilando con el flujo por defecto del proyecto (sin firma explicita del script)"
     }
     
     # Ejecutar build
