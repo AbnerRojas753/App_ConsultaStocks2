@@ -42,11 +42,13 @@ $Config = @{
     Configuration  = "Release"
     Platform       = "AnyCPU"
     
-    # Keystore (ajustalos a tus datos)
-    KeystorePath   = ""  # Ej: "C:\Keys\miapp.keystore"
-    KeystorePass   = ""  # Password del keystore
-    KeyAlias       = ""  # Alias de la clave
-    KeyPass        = ""  # Password de la clave (generalmente igual al keystore)
+    # Keystore - DEBUG (para uso interno)
+    # Para uso interno/desarrollo: usa debug.keystore (ya viene con Android)
+    # Para Play Store: debes crear un keystore de produccion propio
+    KeystorePath   = "$env:USERPROFILE\.android\debug.keystore"
+    KeystorePass   = "android"
+    KeyAlias       = "androiddebugkey"
+    KeyPass        = "android"
     
     # Opciones de build
     IncrementVersionCode = $true    # Incrementar versionCode automaticamente
