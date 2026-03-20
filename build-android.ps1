@@ -245,13 +245,13 @@ function Invoke-BuildAPK {
     
     $projectPath = Join-Path $Config.ProjectRoot $Config.AndroidProject
     
-    # Alineado al flujo que compila correctamente desde Visual Studio:
-    # compilar y empaquetar usando PackageForAndroid, sin forzar propiedades
-    # extra de empaquetado que puedan alterar la resolucion de dependencias.
+    # Para generar un APK instalable/distribuible, Xamarin.Android recomienda
+    # SignAndroidPackage. Mantenemos la limpieza manual previa, pero el empaquetado
+    # vuelve a usar el target que crea y firma el APK final.
     $buildParams = @(
         $projectPath
         "/restore"
-        "/t:PackageForAndroid"
+        "/t:SignAndroidPackage"
         "/p:Configuration=$($Config.Configuration)"
         "/p:Platform=$($Config.Platform)"
         "/v:minimal"
@@ -267,7 +267,8 @@ function Invoke-BuildAPK {
         $buildParams += "/p:AndroidPackageFormat=apk"
         Write-Host "Firmando APK con keystore..." -ForegroundColor Gray
     } else {
-        Write-WarningMsg "Compilando con el flujo por defecto del proyecto (sin firma explicita del script)"
+        $buildParams += "/p:AndroidKeyStore=false"
+        Write-WarningMsg "Compilando APK sin firma explicita"
     }
     
     # Ejecutar build
