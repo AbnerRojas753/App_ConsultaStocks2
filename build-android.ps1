@@ -45,11 +45,11 @@ $Config = @{
     # Keystore
     # Opcion 1: DEBUG - Usa el keystore por defecto de Android (no pide password)
     # Opcion 2: PRODUCCION - Usa tu propio keystore (el script te preguntara la password)
-    KeystorePath   = "$env:USERPROFILE\.android\debug.keystore"
-    KeystorePass   = "android"  # Si usas debug.keystore, dejar asi
-    KeyAlias       = "androiddebugkey"
-    KeyPass        = "android"  # Si usas debug.keystore, dejar asi
-    AskForPassword = $false     # Cambiar a $true si quieres que pregunte la password
+    KeystorePath   = "local-secrets\android\admin.keystore"
+    KeystorePass   = ""
+    KeyAlias       = "admin"
+    KeyPass        = ""
+    AskForPassword = $true
     
     # Opciones de build
     IncrementVersionCode = $false   # Incrementar versionCode automaticamente (manual para evitar conflictos git)
@@ -61,6 +61,10 @@ $Config = @{
 
 if (-not [System.IO.Path]::IsPathRooted($Config.OutputDirectory)) {
     $Config.OutputDirectory = Join-Path $Config.ProjectRoot $Config.OutputDirectory
+}
+
+if ($Config.KeystorePath -and -not [System.IO.Path]::IsPathRooted($Config.KeystorePath)) {
+    $Config.KeystorePath = Join-Path $Config.ProjectRoot $Config.KeystorePath
 }
 
 # =============================================================================

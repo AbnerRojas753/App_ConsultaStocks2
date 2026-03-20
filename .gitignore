@@ -21,6 +21,9 @@
 # Logs
 hs_err_pid*.log
 
+# Local secrets
+local-secrets/
+
 # NuGet
 packages/
 *.nuget.props
