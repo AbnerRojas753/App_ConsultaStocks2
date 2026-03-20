@@ -52,7 +52,7 @@ $Config = @{
     AskForPassword = $false     # Cambiar a $true si quieres que pregunte la password
     
     # Opciones de build
-    IncrementVersionCode = $true    # Incrementar versionCode automaticamente
+    IncrementVersionCode = $false   # Incrementar versionCode automaticamente (manual para evitar conflictos git)
     BuildAAB            = $false    # Generar tambien AAB (para Play Store)
     
     # Carpeta de salida
