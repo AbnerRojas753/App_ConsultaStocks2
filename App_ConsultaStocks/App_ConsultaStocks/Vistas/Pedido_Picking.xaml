@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Pedido_Picking">
+    <ContentPage.Content>
+
+        <StackLayout Spacing="0" Margin="0,0,0,0" >
+
+            <Label Text="Picking de pedido"
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                   />
+
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Sede:" FontSize="16"></Label>
+                <Label Text="" x:Name="lbl_NombreSede" FontSize="16" TextColor="Black"></Label>
+            </StackLayout>
+            
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray" IsVisible="false">
+            </BoxView>
+
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,0" IsVisible="false" Spacing="0">
+                <Label  Text="Pedido: "
+                        TextColor="IndianRed"
+                        VerticalOptions="CenterAndExpand"
+                        />
+                <Label  Text="                   "
+                        x:Name="lbl_NroPedido"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand"
+                        />
+
+                <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                    <Entry Keyboard="Numeric"
+                           Placeholder="|||  .... |||"
+                           x:Name="txtNroPedido" 
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="15"
+                           Completed="txtNroPedido_Completed"
+                           />
+                </Frame>
+
+                <Button Text=""
+                        ImageSource="BarCodeMini2.png"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        FontSize="15"
+                        x:Name="btnLeerNroPedido"
+                        Clicked="btnLeerNroPedido_Clicked"
+                        HorizontalOptions="StartAndExpand"
+                        />
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" IsVisible="false">
+                <Label Text="Cliente:"></Label>
+                <Label Text="" x:Name="lbl_RucCliente"></Label>
+            </StackLayout>
+
+            <StackLayout IsVisible="false">
+                <Label Text="" x:Name="lbl_NombreCliente"></Label>
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+
+            <StackLayout Spacing="0">
+
+                <StackLayout Orientation="Horizontal" Spacing="0">
+                    <CheckBox x:Name="Chk_GrupoPedidos" CheckedChanged="Chk_GrupoPedidos_CheckedChanged"  HorizontalOptions="Start" ></CheckBox>
+                
+                    <Label  Text="Grupo de pedidos "
+                        TextColor="IndianRed"
+                        VerticalOptions="CenterAndExpand"
+                        />
+                </StackLayout>
+                
+                
+                <StackLayout Orientation="Horizontal">
+                    <Label  Text="Agregar:"
+                        VerticalOptions="CenterAndExpand"
+                        />
+                    <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                        <Entry Keyboard="Numeric"
+                               Placeholder="|||  .... |||"
+                               x:Name="txt_NroPedido_GrupoPedido"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="CenterAndExpand"
+                               FontSize="15"
+                               Completed="txt_NroPedido_GrupoPedido_Completed"
+                               />
+                    </Frame>
+
+                    <Button Text=""
+                            ImageSource="BarCodeMini2.png"
+                            BackgroundColor="WhiteSmoke"
+                            CornerRadius="10"
+                            FontSize="15"
+                            WidthRequest="55" 
+                            x:Name="btnLeerNroPedido_GrupoPedido"
+                            Clicked="btnLeerNroPedido_GrupoPedido_Clicked"
+                            HorizontalOptions="Start"
+                        />
+
+                    <StackLayout >
+                        <Label  Text="0"
+                            x:Name="lbl_CantidadPedidos_GrupoPedidos"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            HorizontalOptions="CenterAndExpand"
+                            />
+                        
+                        <Label  Text="pedidos"
+                            TextColor="Black"
+                             VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="Start"
+                            />
+                    </StackLayout>
+                    
+                    <Button Text="ver" x:Name="Btn_GrupoPedidos_VerPedido" Clicked="Btn_GrupoPedidos_VerPedido_Clicked"  HorizontalOptions="EndAndExpand">
+
+                    </Button>
+                </StackLayout>
+
+
+            </StackLayout>
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+
+            <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                <Button Text=" Iniciar. . ." x:Name="Btn_Iniciar" Clicked="Btn_Iniciar_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Terminar" x:Name="Btn_Terminar" Clicked="Btn_Terminar_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Manual" x:Name="Btn_PickingManual" Clicked="Btn_PickingManual_Clicked"  HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+            </StackLayout>
+
+            
+         
+            
+            
+            <StackLayout Orientation="Horizontal"  Margin="0,10,0,0">
+                <Label Text="Productos del pedido:" HorizontalOptions="Start"></Label>
+                <CheckBox x:Name="Chk_VerSoloPend" CheckedChanged="Chk_VerSoloPend_CheckedChanged" HorizontalOptions="EndAndExpand" ></CheckBox>
+                <Label Text="Ver sólo pendientes" VerticalOptions="Center" HorizontalOptions="Start"></Label>
+            </StackLayout>
+            
+            
+            <StackLayout Margin="0,0,0,0">
+                <Grid Padding="0" ColumnSpacing="0" x:Name="GridStocks" BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.8*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Producto" Grid.Column="0" Grid.Row="0" TextColor="Black"/>
+                    <Label Text="Pedido" Grid.Column="1" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Pick" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView   Margin="0,0,0,0"
+                            x:Name="LV_DetallePedido"
+                            BackgroundColor="Transparent"
+                            >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="4" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.8*"/>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0.3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+
+                                    <Label Text="{Binding ART_DESCRIPCION}"   Grid.Column="0"  Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding CANTIDAD}"  Grid.Column="1" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding PICK}"    Grid.Column="2" Grid.Row="0" HorizontalOptions="End" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </StackLayout>
+
+
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+            <StackLayout Spacing="0">
+
+                <StackLayout >
+                    <Label  Text="Producto sin control de ubicación:"
+                            TextColor="Chocolate"
+                        VerticalOptions="CenterAndExpand"
+                        />
+                </StackLayout>
+
+                <StackLayout  Orientation="Horizontal">
+
+                    <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                        <Entry Keyboard="Numeric"
+                           Placeholder="||......||"
+                               
+                           x:Name="txt_IdProducto_Directo"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="15"
+                               Completed="txt_IdProducto_Directo_Completed"
+                               />
+                    </Frame>
+                    <Button Text=""
+                            ImageSource="BarCodeMini2.png"
+                            BackgroundColor="WhiteSmoke"
+                            CornerRadius="10"
+                            FontSize="10"
+                            WidthRequest="40" 
+                            x:Name="btnLeerIdProductoDirecto"
+                            Clicked="btnLeerIdProductoDirecto_Clicked"
+                            HorizontalOptions="Start"
+                        />
+                    <CheckBox x:Name="Chk_CantManual"  CheckedChanged="Chk_CantManual_CheckedChanged" HorizontalOptions="Start" ></CheckBox>
+
+                    <Label  Text="Cantidad"
+                        VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="Start"
+                        />
+
+                    <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                        <Entry Keyboard="Numeric"
+                           Placeholder="......"
+                           x:Name="txt_Cantidad_ProdDirecto"    
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="Start"
+                           FontSize="15"
+                           Completed="txt_Cantidad_ProdDirecto_Completed"
+                           />
+                    </Frame>
+                    <Button Text="Grabar" x:Name="Btn_GrabarProductoDirecto" 
+                            Clicked="Btn_GrabarProductoDirecto_Clicked" HorizontalOptions="EndAndExpand"
+                            >
+                    </Button>
+                </StackLayout>
+               
+ 
+
+              
+            </StackLayout>
+            
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+            <StackLayout Orientation="Horizontal" BackgroundColor="LightGray">
+
+                
+                <StackLayout Orientation="Horizontal" Margin="0,0,60,0">
+                    <Label Text="Proceso:" />
+                    <Label Text="0" x:Name="lbl_IdPicking" />
+                </StackLayout>
+                
+                
+                <Label Text="|" FontSize="16"/>
+                <Label Text="Tot.Pedido:" FontSize="16" HorizontalOptions="EndAndExpand"/>
+
+                <Label Text="" x:Name="lblTotPedido" TextColor="Black" FontSize="16" HorizontalOptions="StartAndExpand" />
+
+                <Label Text="Tot.Picking:" FontSize="16" HorizontalOptions="EndAndExpand"/>
+                <Label Text="" x:Name="lblTotPick" TextColor="Black" FontSize="16" HorizontalOptions="StartAndExpand" />
+
+
+            </StackLayout>
+            
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

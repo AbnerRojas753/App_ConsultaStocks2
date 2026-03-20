@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/devEmpresa/App_ConsultaStocks2/App_ConsultaStocks/App_ConsultaStocks/Datos/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

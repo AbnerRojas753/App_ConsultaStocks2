@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.MovimientoStock">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <StackLayout Margin="0,10,0,0">
+                <Label Text="Movimiento de Stock por Ubicación"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       TextColor="Red" />
+            </StackLayout>
+
+            <Frame Padding="8" CornerRadius="15" Margin="0,10,0,0" BorderColor="Gainsboro">
+                <StackLayout>
+                    <!-- Ubicación Activa -->
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Text="Ubicación Activa:" FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="DarkBlue" />
+                        <Label x:Name="lblUbicacion" Text="(Sin ubicación)" FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="Red" />
+                    </StackLayout>
+
+                    <!-- Entry para escanear/ingresar ubicación -->
+                    <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Text="Escanear:" FontSize="16" VerticalOptions="Center" />
+                        <Frame Padding="0" HorizontalOptions="FillAndExpand">
+                            <Entry x:Name="entryUbicacion"
+                                   Placeholder="|||..Ubicación..|||"
+                                   HorizontalTextAlignment="Center"
+                                   Completed="entryUbicacion_Completed" />
+                        </Frame>
+                        <Button Text=""
+                                ImageSource="BarCodeMini2.png"
+                                BackgroundColor="WhiteSmoke"
+                                CornerRadius="10"
+                                x:Name="btnScannerUbicacion"
+                                HorizontalOptions="End"
+                                Clicked="btnScannerUbicacion_Clicked" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Text="Artículo:" FontSize="16" VerticalOptions="Center" />
+                        <Frame Padding="0" HorizontalOptions="FillAndExpand">
+                            <Entry x:Name="entryArticulo" Placeholder="|||..EAN...|||" HorizontalTextAlignment="Center" Completed="entryArticulo_Completed" />
+                        </Frame>
+                        <Button Text="Buscar" x:Name="btnBuscar" Clicked="btnBuscar_Clicked" BackgroundColor="WhiteSmoke" CornerRadius="10" HorizontalOptions="End" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <Frame Padding="8" CornerRadius="15" Margin="0,10,0,0" BorderColor="LightPink">
+                <StackLayout>
+                    <Grid Padding="0" ColumnSpacing="0" BackgroundColor="WhiteSmoke">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Artículo" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                        <Label Text="Lote" Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                        <Label Text="Stock" Grid.Column="2" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    </Grid>
+
+                    <ListView x:Name="listViewResultados" HasUnevenRows="True" BackgroundColor="Transparent" ItemTapped="listViewResultados_ItemTapped" SeparatorVisibility="Default" SeparatorColor="#444444">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="2" ColumnSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.3*"/>
+                                                <ColumnDefinition Width="0.3*"/>
+                                                <ColumnDefinition Width="0.4*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Descripción primero (fila 0) - mostrar solo 1 línea y truncar si es muy larga -->
+                                            <Label Text="{Binding DESCRIPCION}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalOptions="Start" LineBreakMode="TailTruncation" FontSize="Small" TextColor="Gray" HeightRequest="24" VerticalOptions="Start" />
+
+                                            <!-- Artículo / Lote / Stock en la segunda fila (fila 1) -->
+                                            <Label Text="{Binding ID_ARTICULO}" Grid.Column="0" Grid.Row="1" HorizontalOptions="Start" FontSize="Small" />
+                                            <Label Text="{Binding ID_LOTE}" Grid.Column="1" Grid.Row="1" HorizontalOptions="Start" FontSize="Small" />
+                                            <Label Text="{Binding STOCK, StringFormat='{0:N2}'}" Grid.Column="2" Grid.Row="1" HorizontalOptions="Start" FontSize="Small" />
+                                        </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Button Text="Procesar" x:Name="btnProcesar" Clicked="btnProcesar_Clicked" BackgroundColor="WhiteSmoke" CornerRadius="10" Margin="0,8,0,0" />
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

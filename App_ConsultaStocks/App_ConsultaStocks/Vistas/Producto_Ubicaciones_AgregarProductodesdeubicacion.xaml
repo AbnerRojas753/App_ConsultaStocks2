@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Producto_Ubicaciones_AgregarProductodesdeubicacion">
+
+
+    <ContentPage.Content>
+
+        <StackLayout>
+
+            <Label Text="Agregar productos a ubicación"
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                           >
+            </Label>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreSede"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreAlmacen"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+            </StackLayout>
+
+
+            <StackLayout Orientation="Horizontal">
+                <Label  Text="Ubicación:  "
+                        TextColor="IndianRed"
+                       
+                        VerticalOptions="CenterAndExpand"
+                               />
+                <Frame CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Text" Margin="0,0,0,0" 
+                           Placeholder="  |||| Leer Id. de ubicación |||| "
+                           x:Name="txtIdUbicacion"    
+                           FontSize="15"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="CenterAndExpand"
+                           Completed="txtIdUbicacion_Completed"
+                          
+                           />
+                </Frame>
+                <Button Text="" 
+                                ImageSource="BarCodeMini2.png"
+                                BackgroundColor="WhiteSmoke"
+                                CornerRadius="10"
+                                x:Name="btnLeerIdUbicacion"
+                                Clicked="btnLeerIdUbicacion_Clicked"
+                                TextTransform="None"
+                                HorizontalOptions="StartAndExpand"
+                           />
+
+
+
+            </StackLayout>
+
+            <StackLayout Padding="0" Orientation="Horizontal">
+                <Label Text="" x:Name="lbl_Id_Ubicacion" FontSize="18"  TextColor="Black" ></Label>
+                <Label Text="" x:Name="lbl_DescUbicacion" FontSize="18"  TextColor="Black" ></Label>
+                <Label Text="" x:Name="lbl_CantSkus" FontSize="18" HorizontalOptions="CenterAndExpand" TextColor="Black" ></Label>
+            </StackLayout>
+
+            <StackLayout>
+
+                <Grid  Padding="0" ColumnSpacing="0" x:Name="GridUbicaciones"  BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.0*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.11*"/>
+                        <ColumnDefinition Width="0.11*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Descripcion"   Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Lote"          Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Stock"         Grid.Column="2" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Max"           Grid.Column="3" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Min"           Grid.Column="4" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView   Margin="0,0,0,0"
+                                    x:Name="LV_ListaUbicaciones" 
+                                    BackgroundColor="Transparent"                                
+                                >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="0" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.0*"/>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                        <ColumnDefinition Width="0.11*"/>
+                                        <ColumnDefinition Width="0.11*"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding ART_DESCRIPCION}"    Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding ID_LOTE}"         Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding STOCK}"          Grid.Column="2" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding MAX}"            Grid.Column="3" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding MIN}"            Grid.Column="4" Grid.Row="0" HorizontalOptions="End" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+
+
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+
+
+                <Button Text="Agregar Producto" x:Name="Btn_AgregarProducto"  Clicked="Btn_AgregarProducto_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+
+                <Button Text="EDITAR DATOS"  x:Name="Btn_ModificarDatos" Clicked="Btn_ModificarDatos_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+
+            </StackLayout>
+
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text= "         " x:Name="lblExistenciaProducto" TextColor="Black" VerticalOptions="EndAndExpand" />
+
+
+                <Frame CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Text" Margin="0,0,0,0" 
+                           Placeholder="  |||| Verificar Producto |||| "
+                           x:Name="txtIdProductoVerificacion"    
+                           FontSize="15"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="CenterAndExpand"
+                           Completed="txtIdProductoVerificacion_Completed"
+                                  
+                           />
+                </Frame>
+                <Button Text="" 
+                        ImageSource="BarCodeMini.png"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        x:Name="btnLeerIdProductoVerificacion"        
+                        Clicked="btnLeerIdProductoVerificacion_Clicked"
+                        TextTransform="None"
+                        HorizontalOptions="StartAndExpand"
+                           />
+
+
+            </StackLayout>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+
+
+</ContentPage>

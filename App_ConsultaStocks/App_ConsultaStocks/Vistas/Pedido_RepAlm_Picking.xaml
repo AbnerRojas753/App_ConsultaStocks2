@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Pedido_RepAlm_Picking">
+    <ContentPage.Content>
+        <StackLayout Spacing="0" Margin="0,0,0,0" >
+
+            <Label Text="Picking del SUGERIDO"
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                   />
+
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Sede:" FontSize="16"></Label>
+                <Label Text="" x:Name="lbl_NombreSede" FontSize="16" TextColor="Black"></Label>
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray" IsVisible="false">
+            </BoxView>
+
+            <!--<StackLayout Margin="0,2,0,0">
+                <Label Text="Tipo: "
+                               FontSize="13"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_Tipo"  
+                        SelectedIndexChanged="ItemPicker_Tipo_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+
+            <StackLayout Margin="0,2,0,0">
+                <Label Text="Piso: "
+                               FontSize="13"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_Piso"  
+                        SelectedIndexChanged="ItemPicker_Piso_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+            <StackLayout Margin="0,2,0,0">
+                <Label Text="Rack: "
+                               FontSize="13"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_Rack"  
+                        SelectedIndexChanged="ItemPicker_Rack_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black"
+                        > 
+                         
+                        
+
+                </Picker>
+            </StackLayout>-->
+
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout x:Name="stackLayoutTipo" Grid.Column="0" Margin="0,2,0,0">
+                    <Label Text="Tipo:" FontSize="13" VerticalOptions="CenterAndExpand" />
+                    <Picker x:Name="ItemPicker_Tipo"
+                            Title="Seleccione" TitleColor="Black"
+                            Focused="ItemPicker_Tipo_Focused"        
+                            SelectedIndexChanged="ItemPicker_Tipo_SelectedIndexChanged" >
+                    </Picker>
+                </StackLayout>
+
+                <StackLayout  x:Name="stackLayoutPiso" Grid.Column="1" Margin="0,2,0,0">
+                    <Label Text="Piso:" FontSize="13" VerticalOptions="CenterAndExpand" />
+                    <Picker x:Name="ItemPicker_Piso"
+                            Title="Seleccione" TitleColor="Black"
+                            Focused="ItemPicker_Piso_Focused"
+                            SelectedIndexChanged="ItemPicker_Piso_SelectedIndexChanged"
+                            >
+                    </Picker>
+                </StackLayout>
+
+                <StackLayout x:Name="stackLayoutRack" Grid.Column="2" Margin="0,2,0,0">
+                    <Label Text="Rack:" FontSize="13" VerticalOptions="CenterAndExpand" />
+                    <Picker x:Name="ItemPicker_Rack"
+                            Title="Seleccione" TitleColor="Black"
+                            Focused="ItemPicker_Rack_Focused"           
+                            SelectedIndexChanged="ItemPicker_Rack_SelectedIndexChanged" >
+                    </Picker>
+                </StackLayout>
+            </Grid>
+
+
+
+
+            <!--<StackLayout Orientation="Horizontal" IsVisible="true">
+                <Label Text="Cliente :"></Label>
+                <Label Text="" x:Name="lbl_RucCliente"></Label>
+            </StackLayout>
+
+            <StackLayout IsVisible="true">
+                <Label Text="" x:Name="lbl_NombreCliente"></Label>
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>-->
+
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+
+            <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                <Button Text=" Iniciar" x:Name="Btn_Consulta"  Clicked="Btn_Iniciar_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Terminar" x:Name="Btn_Terminar"  HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Manual" x:Name="Btn_PickingManual"  HorizontalOptions="CenterAndExpand"
+                         Clicked="Btn_PickingManual_Clicked"
+                        >
+
+                </Button>
+
+            </StackLayout>
+
+
+
+
+
+            <StackLayout Orientation="Horizontal"  Margin="0,10,0,0">
+                <Label Text="Productos del pedido:" HorizontalOptions="Start"></Label>
+                <CheckBox x:Name="Chk_VerSoloPend"  HorizontalOptions="EndAndExpand" ></CheckBox>
+                <Label Text="Ver sólo pendientes" VerticalOptions="Center" HorizontalOptions="Start"></Label>
+            </StackLayout>
+
+
+            <StackLayout Margin="0,0,0,0">
+                <Grid Padding="0" ColumnSpacing="0" x:Name="GridStocks" BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.8*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Producto" Grid.Column="0" Grid.Row="0" TextColor="Black"/>
+                    <Label Text="Pedido" Grid.Column="1" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Pick" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+
+                </Grid>
+
+
+
+                <ListView   Margin="0,0,0,0"
+                            x:Name="LV_DetalleSugerido"
+                            BackgroundColor="Transparent"
+                            >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="4" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.8*"/>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0.3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+
+                                    <Label Text="{Binding ART_DESCRIPCION}"   Grid.Column="0"  Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding CANTIDAD}"  Grid.Column="1" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding PICK}"    Grid.Column="2" Grid.Row="0" HorizontalOptions="End" />
+
+                                    <!--<Label Text="{Binding CANTIDAD}"  Grid.Column="1" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding PICK}"    Grid.Column="2" Grid.Row="0" HorizontalOptions="End" />-->
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackLayout>
+
+
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+            <StackLayout Spacing="0">
+
+                <StackLayout >
+                    <Label  Text="Producto sin control de ubicación:"
+                            TextColor="Chocolate"
+                        VerticalOptions="CenterAndExpand"
+                        />
+                </StackLayout>
+
+                <StackLayout  Orientation="Horizontal">
+
+                    <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                        <Entry Keyboard="Numeric"
+                           Placeholder="||...            ...||"
+                               
+                           x:Name="txt_IdProducto_Directo"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="15"
+                           Completed="txt_IdProducto_Directo_Completed"
+
+                               />
+                    </Frame>
+                    <Button Text=""
+                            ImageSource="BarCodeMini2.png"
+                            BackgroundColor="WhiteSmoke"
+                            CornerRadius="10"
+                            FontSize="10"
+                            WidthRequest="40" 
+                            x:Name="btnLeerIdProductoDirecto"
+                            
+                            HorizontalOptions="Start"
+                        />
+
+
+                    <Label  Text="Cantidad"
+                        VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="Start"
+                        />
+
+                    <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                        <Entry Keyboard="Numeric"
+                           Placeholder="......"
+                           x:Name="txt_Cantidad_ProdDirecto"    
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="Start"
+                           FontSize="15"
+                           />
+                    </Frame>
+                    <Button Text="Grabar" x:Name="Btn_GrabarProductoDirecto"  Clicked="Btn_GrabarProductoDirecto_Clicked"
+                            HorizontalOptions="EndAndExpand"
+                            >
+                    </Button>
+                </StackLayout>
+
+
+
+
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+            <StackLayout Orientation="Horizontal" BackgroundColor="LightGray">
+
+
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                    <Label Text="Proceso:" />
+                    <Label Text="0" x:Name="lbl_IdPicking" />
+
+                </StackLayout>
+
+
+                <Label Text="Tot.Pedido:" FontSize="13" HorizontalOptions="EndAndExpand"/>
+                <Label Text="" x:Name="lblTotPedido" TextColor="Black" FontSize="13" HorizontalOptions="StartAndExpand" />
+                <Label Text="Filtro:" FontSize="13" HorizontalOptions="EndAndExpand"/>
+                <Label Text="" x:Name="lblFiltro" TextColor="Black" FontSize="13" HorizontalOptions="StartAndExpand" />
+
+                <Label Text="Tot.Picking:" FontSize="13" HorizontalOptions="EndAndExpand"/>
+                <Label Text="" x:Name="lblTotPick" TextColor="Black" FontSize="13" HorizontalOptions="StartAndExpand" />
+
+
+            </StackLayout>
+
+
+        </StackLayout>
+
+
+    </ContentPage.Content>
+</ContentPage>

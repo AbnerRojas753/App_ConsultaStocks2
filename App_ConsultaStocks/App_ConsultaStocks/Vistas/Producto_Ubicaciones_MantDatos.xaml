@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Producto_Ubicaciones_MantDatos">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Label Text="Registro de  Ubicación - Producto "
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                           >
+            </Label>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreSede"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreAlmacen"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+            </StackLayout>
+
+
+
+
+            <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Text="Ubicación:     " 
+                           Margin="0,20,0,0"
+                           TextColor="IndianRed"
+                           >
+                </Label>
+                <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Text" Margin="0,0,0,0"                                     
+                           Placeholder="  |||| Id. de ubicación |||| "  
+                           FontSize="15"   
+                           x:Name="txtIdUbicacion"
+                           Completed="txtIdUbicacion_Completed"
+                           HorizontalTextAlignment="Center"
+                           />
+                </Frame>
+
+                <Button Text="" 
+                        ImageSource="BarCodeMini.png"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        x:Name="Btn_LeerUbicacion"
+                        Clicked="Btn_LeerUbicacion_Clicked"
+                        TextTransform="None"
+                        HorizontalOptions="StartAndExpand"
+                        />
+
+
+            </StackLayout>
+
+            <StackLayout Padding="0">
+                <Label Text="" x:Name="lbl_Id_Ubicacion" FontSize="18"  TextColor="Black" ></Label>
+                <Label Text="" x:Name="lbl_DescUbicacion" FontSize="18"  TextColor="Black" ></Label>
+            </StackLayout>
+
+
+            <StackLayout Margin="0,20,0,0">
+
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                <Label Text="Producto:    "
+                       Margin="0,20,0,0"
+                       TextColor="IndianRed"
+                       >
+                </Label>
+
+                <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Numeric" Margin="0,0,0,0"                                     
+                           Placeholder="  |||| Id. de producto |||| "                               
+                           x:Name="txtIdProducto" FontSize="15" 
+                           Completed="txtIdProducto_Completed"
+                           HorizontalTextAlignment="Center"
+                           />
+                </Frame>
+
+                <Button Text="" 
+                        ImageSource="BarCodeMini.png"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        x:Name="btnLeerIdProducto"
+                        Clicked="btnLeerIdProducto_Clicked"
+                        TextTransform="None"
+                        HorizontalOptions="StartAndExpand"
+                        />
+
+            </StackLayout>
+
+            <StackLayout Padding="0">
+                <Label Text="" x:Name="lbl_Id_Articulo" FontSize="18"  TextColor="Black"></Label>
+                <Label Text="" x:Name="lbl_Art_Descripcion" FontSize="18" TextColor="Black" ></Label>
+            </StackLayout>
+
+
+            <StackLayout Margin="0,20,0,0">
+                <Label Text="" FontSize="15" x:Name="lbl_ExisteUbicacion" HorizontalOptions="Center"></Label>
+
+            </StackLayout>
+            <!-- ...existing code... -->
+
+            <!-- Elimina o comenta el StackLayout de ID Lote que está debajo de producto -->
+
+            <!-- Nueva fila: ID Lote, Máximo, Mínimo -->
+            <StackLayout Orientation="Horizontal" Margin="0,20,0,0">
+                <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Text" Margin="0,0,0,0"
+               Placeholder="  |||| Id. de lote |||| "
+               x:Name="txtIdLote"
+               Completed="TxtIdLote_Completed"
+               FontSize="15"
+               HorizontalTextAlignment="Center"
+               />
+                </Frame>
+                <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Numeric" Margin="0,0,0,0"                                 
+               Placeholder="Máximo"                           
+               x:Name="TxtMaximo"
+               Completed="TxtMaximo_Completed"
+               HorizontalTextAlignment="Center"                               
+               HorizontalOptions="CenterAndExpand"
+               />
+                </Frame>
+                <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">
+                    <Entry Keyboard="Numeric" Margin="0,0,0,0"                            
+               Placeholder="Mínimo"                           
+               x:Name="TxtMinimo"
+               Completed="TxtMinimo_Completed"
+               HorizontalTextAlignment="Center"                           
+               HorizontalOptions="CenterAndExpand"                                                                                     
+               />
+                </Frame>
+            </StackLayout>
+            <!-- ...existing code... -->
+
+
+            <StackLayout Margin="0,20,0,0" Orientation="Horizontal" >
+                <Label Text="Stock:  "  ></Label>
+                <Label Text="20" FontSize="18"  x:Name="lblStock" TextColor="Black" ></Label>
+
+                <Label Text="(und)" ></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="0,15,0,0">
+                <Button Text="   Grabar   " x:Name="Btn_Grabar" Clicked="Btn_Grabar_Clicked"  HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Eliminar"  x:Name="Btn_Eliminar" Clicked="Btn_Eliminar_Clicked"  HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Limpiar"  x:Name="Btn_Limpiar" Clicked="Btn_Limpiar_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+            </StackLayout>
+
+
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

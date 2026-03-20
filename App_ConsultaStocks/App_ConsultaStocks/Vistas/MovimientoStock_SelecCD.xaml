@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.MovimientoStock_SelecCD">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <StackLayout Margin="0,10,0,0">
+
+                <Label Text="Seleccione Sede"
+                       FontSize="Medium"
+                       Margin="0,0,0,10"
+                       HorizontalOptions="Center"
+                       TextColor="Red"
+                           />
+            </StackLayout>
+
+
+            <StackLayout Margin="0,10,0,0">
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_CD"  HorizontalOptions="FillAndExpand"
+                        SelectedIndexChanged="ItemPicker_CD_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+
+
+            <StackLayout Margin="0,10,0,0">
+
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_Almacen" HorizontalOptions="FillAndExpand" 
+                        SelectedIndexChanged="ItemPicker_Almacen_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+
+            <StackLayout Margin="0,40,0,0">
+                <Button Text="Ir a Movimiento de Stock" 
+                        VerticalOptions="StartAndExpand"  
+                        HorizontalOptions="FillAndExpand" 
+                        CornerRadius="10"
+                        x:Name="Btn_IniciarMovimiento"
+                        Clicked="Btn_IniciarMovimiento_Clicked">
+                </Button>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

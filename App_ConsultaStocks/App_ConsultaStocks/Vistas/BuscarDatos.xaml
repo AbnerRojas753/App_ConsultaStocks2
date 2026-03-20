@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.BuscarDatos">
+    <ContentPage.Content>
+
+        <StackLayout  Spacing="0" Margin="0,0,0,0"  >
+
+            <StackLayout x:Name="StackLayout_TipoRecepcion" Orientation="Horizontal"  IsVisible="False">
+                <RadioButton Content="Proveedor" x:Name="RBtn_Proveedor" FontSize="16" />
+                <RadioButton Content="Transferencia" x:Name="RBtn_Transferencia" FontSize="16" />
+            </StackLayout>
+
+            
+            <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                
+                <Frame CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="0">
+                
+                    <Entry Margin="0,0,0,0" 
+                           Placeholder=". . .   B u s c a r      . . ."
+                           x:Name="txtBuscar"
+                           
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="15"
+                             
+                               
+                       />
+            
+                </Frame>
+                <Button Text="Buscar" 
+                                BackgroundColor="WhiteSmoke"
+                                CornerRadius="10"
+                                x:Name="btnBuscar"
+                                TextTransform="None"
+                        Clicked="btnBuscar_Clicked"
+                                HorizontalOptions="EndAndExpand"
+                           />
+            </StackLayout>
+
+            <StackLayout Margin="0,0,0,0">
+                <Grid Padding="0" ColumnSpacing="0" x:Name="GridBuscar" BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.80*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="" Grid.Column="0" Grid.Row="0" TextColor="Black"/>
+                    <Label Text="" Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView   Margin="0,0,0,0"
+                            x:Name="LV_Buscar"
+                            BackgroundColor="Transparent"
+                            >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="4" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="0.80*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding Retorno1}"   Grid.Column="0"  Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding Retorno2}"    Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button Text="Seleccionar" x:Name="btn_Seleccionar" Clicked="btn_Seleccionar_Clicked" >
+                </Button>
+
+            </StackLayout>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Pedido_RepAlm_SelecCD">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <StackLayout Margin="0,10,0,0">
+
+                <Label Text="Seleccione Sede"
+                       FontSize="Medium"
+                       Margin="0,0,0,10"
+                       HorizontalOptions="Center"
+                       TextColor="Red"
+                           />
+            </StackLayout>
+
+
+            <StackLayout Margin="0,10,0,0">
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_CD"  HorizontalOptions="FillAndExpand"
+                        SelectedIndexChanged="ItemPicker_CD_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+
+
+            <StackLayout Margin="0,10,0,0">
+
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_Almacen" HorizontalOptions="FillAndExpand" 
+                        SelectedIndexChanged="ItemPicker_Almacen_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0" Margin="0,2,0,0">
+                    <Label Text="NroSug:" FontSize="13" VerticalOptions="CenterAndExpand" />
+                    <Picker x:Name="ItemPicker_NroSug"
+                            Title="Seleccione" TitleColor="Black"
+                            SelectedIndexChanged="ItemPicker_NroSug_SelectedIndexChanged"
+                               >
+                    </Picker>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1" Margin="0,2,0,0">
+                    <Label Text="Corte:" FontSize="13" VerticalOptions="CenterAndExpand" />
+                    <Picker x:Name="ItemPicker_NroHoja"
+                            Title="Seleccione" TitleColor="Black"
+                                      >
+                    </Picker>
+                </StackLayout>
+
+
+            </Grid>
+
+
+
+
+
+
+            <!--<StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                <Label Text="Nro Sugerido: "
+                               FontSize="18"   
+                               VerticalOptions="Center"
+                               />
+
+                <Entry Keyboard="Numeric"
+                           Placeholder="       ........        "
+                           x:Name="txtIdSugerido"
+                           FontSize="18"
+                           />
+
+            </StackLayout>
+            <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                <Label Text="Nro Hoja: "
+                               FontSize="18"   
+                               VerticalOptions="Center"
+                               />
+
+                <Entry 
+                           Placeholder="       ........        "
+                           x:Name="txtIdNroHoja"
+                           FontSize="18"
+                           />
+
+            </StackLayout>-->
+            <StackLayout Margin="0,20,0,0" Orientation="Horizontal">
+                <Label Text="Id de picador: "
+                               FontSize="18"   
+                               VerticalOptions="Center"
+                               />
+
+                <Frame  Padding="0" CornerRadius="0" HorizontalOptions="Start">
+                    <Entry Keyboard="Numeric"
+                           Placeholder="        "
+                           HorizontalOptions="EndAndExpand"
+                           HorizontalTextAlignment="Center"
+                           
+                           x:Name="txtIdPicador"
+                           FontSize="18"
+                           Completed="txtIdPicador_Completed"
+                           />
+                </Frame>
+                <Button Text="Ir a Picking" VerticalOptions="StartAndExpand"  HorizontalOptions="FillAndExpand" CornerRadius="10"
+                        x:Name="Btn_IraPicking"
+                        Clicked="Btn_IraPicking_Clicked">
+
+
+                </Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="         Nombre: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label x:Name="lbl_NombrePicador" TextColor="Black" FontSize="18" />
+
+            </StackLayout>
+
+            <!--<StackLayout Margin="0,20,0,0" Orientation="Horizontal">
+                <Label Text="Procesos pendientes:  "
+                       TextColor="LightCoral"
+                       VerticalOptions="CenterAndExpand"
+                               />
+                <Label x:Name="lbl_CantProcesosPendientes"
+                                           />
+
+
+            </StackLayout>-->
+
+
+            <StackLayout Orientation="Horizontal" BackgroundColor="LightGray" IsVisible="false">
+                <StackLayout Orientation="Horizontal" Margin="0,0,100,0">
+                    <Label Text="Proceso:" />
+                    <Label Text="0" x:Name="lbl_IdPicking" />
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

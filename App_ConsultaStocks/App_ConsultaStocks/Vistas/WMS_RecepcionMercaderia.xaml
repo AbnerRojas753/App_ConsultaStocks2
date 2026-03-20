@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.WMS_RecepcionMercaderia">
+    <ContentPage.Content>
+        <StackLayout Spacing="0" Margin="0,0,0,0" >
+            <Label Text="Recepción de productos"
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                   />
+
+            <StackLayout Orientation="Horizontal" >
+                <RadioButton Content="Proveedor" x:Name="RBtn_Proveedor" FontSize="15" CheckedChanged="RBtn_Proveedor_CheckedChanged"/>
+                <RadioButton Content="Transferencia" x:Name="RBtn_Transferencia" FontSize="15" CheckedChanged="RBtn_Transferencia_CheckedChanged" />
+                <RadioButton Content="Inventario" x:Name="RBtn_Inventario" FontSize="15" CheckedChanged="RBtn_Inventario_CheckedChanged" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+
+                <Label Text=" Id. de Recepción:" VerticalOptions="Center"></Label>
+
+                <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+                    <Entry Keyboard="Numeric" 
+                           Placeholder="        ....       "
+                           x:Name="txt_IdRecepcion"
+                           HorizontalTextAlignment="End"
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="15"
+                           />
+                </Frame>
+
+
+
+                <Button Text="+ Generar " VerticalOptions="CenterAndExpand"
+                        x:Name="btn_GenerarRecepcion"
+                        Clicked="btn_GenerarRecepcion_Clicked"
+                            HorizontalOptions="Start"
+                        />
+                <Button Text="Cerrar" VerticalOptions="CenterAndExpand"
+                        x:Name="btn_CerrarRecepion"
+                        Clicked="btn_CerrarRecepion_Clicked"
+                        HorizontalOptions="Start"
+                        TextColor="Red"
+                        />
+
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+
+
+            <StackLayout Orientation="Horizontal" x:Name="StkLay_NombreProveedore">
+                <Label Text="Proveedor:" VerticalOptions="Center"></Label>
+
+                <Label  Text=""
+                            x:Name="lbl_NombreProveedor"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"
+                            />
+
+                <Button Text="Buscar"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        FontSize="15"
+                        WidthRequest="95" 
+                        x:Name="btn_BuscarProveedor"
+                        Clicked="btn_BuscarProveedor_Clicked"
+                        HorizontalOptions="EndAndExpand"
+                        />
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+
+            <StackLayout Orientation="Horizontal" x:Name="StkLay_NombreOC">
+                <Label Text="Orden de Compra:" VerticalOptions="Center"></Label>
+
+
+                <Picker x:Name="ItemPicker_OC"
+                            Title="Seleccione" TitleColor="Black"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Start"
+                        SelectedIndexChanged="ItemPicker_OC_SelectedIndexChanged"   WidthRequest="140" >
+                </Picker>
+
+                <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Center" IsVisible="False">
+                    <Entry Keyboard="Numeric" 
+                           Placeholder="            "
+                           x:Name="txt_OC"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="15"
+                           
+                           
+                           />
+                </Frame>
+
+
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+            <StackLayout Orientation="Horizontal">
+
+                <Label Text="Datos del producto:" HorizontalOptions="Start"></Label>
+                <Label x:Name="lbl_YaExisteEnRecepcion" Text="!!! YA EXISTE EN RECEPCIÓN !!!" TextColor="Red" HorizontalOptions="CenterAndExpand"></Label>
+
+            </StackLayout>
+
+
+
+            <StackLayout Orientation="Horizontal" x:Name="StkLay_IngresodeProductos">
+                <Frame  Padding="0" CornerRadius="15" HorizontalOptions="Start">
+
+                    <Entry  
+                               Placeholder="|||     ....     |||"
+                               x:Name="txt_IdArticulo"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="StartAndExpand"
+                           Completed="txt_IdArticulo_Completed"
+                               FontSize="15"
+                               />
+                </Frame>
+
+                <Button Text=""
+                        ImageSource="BarCodeMini2.png"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        FontSize="15"
+                        WidthRequest="55" 
+                        x:Name="btn_LeerCodBarrasProducto"
+                        Clicked="btn_LeerCodBarrasProducto_Clicked"
+                        HorizontalOptions="Start"
+                        />
+
+                <Label Text="" x:Name="lbl_IdArticulo" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="Black"></Label>
+
+                <CheckBox x:Name="Chk_UsarMasterPack" HorizontalOptions="Start" ></CheckBox>
+
+                <Label  Text="MASTER PACK"
+                        TextColor="IndianRed"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        />
+
+            </StackLayout>
+            <Label Text="" x:Name="lbl_NombreProducto" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="Black"></Label>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="UM:" VerticalOptions="CenterAndExpand"></Label>
+                <Entry Text="" x:Name="txt_UM" HorizontalTextAlignment="Center"
+                               HorizontalOptions="FillAndExpand"
+                               FontSize="15"
+                               />
+
+                <Label Text="Equivalencia:" VerticalOptions="CenterAndExpand"></Label>
+                <Entry Keyboard="Numeric" Text="" x:Name="txt_Equivalencia" HorizontalTextAlignment="Center"
+                               HorizontalOptions="FillAndExpand"
+                               FontSize="15"
+                               />
+
+                <Label Text="0" x:Name="lbl_NroLinea" IsVisible="False"></Label>
+
+                <Button Text=""
+                        ImageSource="EditarMini.jpg"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        FontSize="15"
+                        WidthRequest="55" 
+                        x:Name="btn_editarlinea"
+                        Clicked="btn_editarlinea_Clicked"
+                        HorizontalOptions="EndAndExpand"
+                        />
+
+                <Button Text=""
+                        ImageSource="Eliminar2.png"
+                        BackgroundColor="WhiteSmoke"
+                        CornerRadius="10"
+                        FontSize="15"
+                        WidthRequest="55" 
+                        x:Name="btn_eliminarLinea"
+                        Clicked="btn_eliminarLinea_Clicked"
+                        HorizontalOptions="StartAndExpand"
+                        />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Cantidad:" VerticalOptions="CenterAndExpand"></Label>
+                <Entry Keyboard="Numeric"
+                               Placeholder="             " 
+                       x:Name="txt_Cantidad"        
+                       HorizontalTextAlignment="Center"
+                               HorizontalOptions="Start"
+                               FontSize="15"
+                               />
+
+                <CheckBox x:Name="Chk_fechVenc" HorizontalOptions="Start"
+                           CheckedChanged="OnChkUsarVencCheckedChanged"
+                          
+                          ></CheckBox>
+
+                <Label  Text="SIN VENC"
+                        TextColor="IndianRed"
+                        x:Name="lbl_SINVENC"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        />
+                <Label Text="" 
+           
+                       HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+
+
+
+
+                <Button Text="Guardar" VerticalOptions="CenterAndExpand"
+                            x:Name="btn_GuardarLinea"
+                            HorizontalOptions="End"
+                        Margin="0,0,30,0" 
+                        Clicked="btn_GuardarLinea_Clicked"
+                        />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+
+                <Label Text="Lote:"  x:Name="lbl_Lote" VerticalOptions="CenterAndExpand"></Label>
+                <Entry Text=""
+                       Placeholder="Lote ......"
+                       x:Name="txt_Lote"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="StartAndExpand"
+                       Completed="txt_Lote_Completed"
+                       FontSize="15"
+                               />
+                <Label Text="" x:Name="lbl_ExisteLote" IsVisible="False"  VerticalOptions="CenterAndExpand"></Label>
+
+                <Label Text="Vencimiento:" x:Name="lbl_Fecha"  VerticalOptions="CenterAndExpand"></Label>
+                <Entry Keyboard="Numeric" Text=""
+                       Placeholder="MES AÑO .."
+                       IsEnabled="False" 
+                       x:Name="txt_Fecha"
+                       HorizontalTextAlignment="Center" 
+                       HorizontalOptions="StartAndExpand"
+                       Completed="txt_Fecha_Completed"
+                       FontSize="15"
+                               />
+
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Ubicación:" VerticalOptions="CenterAndExpand"></Label>
+
+                <Entry x:Name="txt_Ubicacion"
+                       HorizontalTextAlignment="Start"
+                       HorizontalOptions="FillAndExpand"                       
+                       FontSize="15"
+                               />
+                <Button Text="Limpiar" VerticalOptions="CenterAndExpand"
+                            x:Name="btn_Limpiar"
+                            HorizontalOptions="End"
+                        Margin="0,0,30,0" 
+                        Clicked="btn_Limpiar_Clicked"
+                        />
+            </StackLayout>
+
+
+
+
+            <StackLayout Margin="0,0,0,0">
+                <Grid Padding="0" ColumnSpacing="0" x:Name="GridDetalleRecepcion" BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="1.6*"/>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Nro" Grid.Column="0" Grid.Row="0" TextColor="Black"/>
+                    <Label Text="Producto" Grid.Column="1" Grid.Row="0" TextColor="Black"/>
+                    <Label Text="Lote" Grid.Column="2" Grid.Row="0" TextColor="Black"/>
+                    <Label Text="UM" Grid.Column="3" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Cant." Grid.Column="4" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView   Margin="0,0,0,0"
+                            x:Name="LV_DetalleRecepcion"
+                            BackgroundColor="Transparent"
+                            >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="4" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="1.6*"/>
+                                        <ColumnDefinition Width="0.4*"/>
+
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0*"/>
+                                        <ColumnDefinition Width="0*"/>
+                                        <ColumnDefinition Width="0*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+
+                                    <Label Text="{Binding NRO_LINEA}"           Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding NOMBRE_ARTICULO}"     Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding ID_LOTE}"     Grid.Column="2" Grid.Row="0" HorizontalOptions="Start" />
+
+                                    <Label Text="{Binding UM}"                  Grid.Column="3" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding CANTIDAD}"            Grid.Column="4" Grid.Row="0" HorizontalOptions="End"  />
+                                    <Label Text="{Binding ID_ARTICULO}"            Grid.Column="5" Grid.Row="0" HorizontalOptions="End" IsVisible="False"  />
+                                    <Label Text="{Binding VENCIMIENTO}"            Grid.Column="6" Grid.Row="0" HorizontalOptions="End" IsVisible="False"  />
+                                    <Label Text="{Binding EQUIVALENCIA}"            Grid.Column="7" Grid.Row="0" HorizontalOptions="End" IsVisible="False"  />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackLayout>
+
+
+            <BoxView   VerticalOptions="Center" HorizontalOptions="Center"
+                       HeightRequest="1" WidthRequest="510" Color="Gray">
+            </BoxView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

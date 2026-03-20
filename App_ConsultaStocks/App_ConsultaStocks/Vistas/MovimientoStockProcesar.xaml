@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.MovimientoStockProcesar">
+    <ContentPage.Content>
+    <StackLayout Spacing="12" Margin="10,10,10,10">
+
+            <Label Text="Procesar Movimiento de Stock"
+                   Margin="0,0,0,0"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                   />
+
+            <Frame Padding="14" CornerRadius="15" Margin="0,12,0,0" BorderColor="Gainsboro">
+                <StackLayout Spacing="18">
+                    <Label Text="Origen" TextColor="Red" FontSize="16" HorizontalOptions="Center" />
+
+                    <!-- Ubicación (pequeña, sobre la descripción) -->
+                    <StackLayout Orientation="Horizontal" Spacing="6" HorizontalOptions="Start">
+                        <Label Text="Ubicación:" FontSize="14" VerticalOptions="Center" TextColor="Black" />
+                        <Label Text="" FontSize="14" VerticalOptions="Center" x:Name="lbl_OrigenUbicacion" />
+                    </StackLayout>
+
+                    <!-- Descripción grande primero (hasta 3 líneas) -->
+                    <Label x:Name="lbl_Descripcion" Text="" FontAttributes="Bold" FontSize="20" TextColor="Black" HorizontalOptions="FillAndExpand" LineBreakMode="WordWrap" HeightRequest="90" />
+
+                    <!-- Código de artículo (pequeño) -->
+                    <Label x:Name="lbl_Articulo" Text="" FontSize="14" TextColor="Black" HorizontalOptions="Start" />
+
+                    <!-- Lote y Stock en la misma línea -->
+                    <StackLayout Orientation="Horizontal" Spacing="24" HorizontalOptions="Start">
+                        <StackLayout Orientation="Horizontal" Spacing="6">
+                            <Label Text="Lote:" FontSize="16" VerticalOptions="Center" TextColor="Black" />
+                            <Label Text="" FontSize="16" VerticalOptions="Center" x:Name="lbl_Lote" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Spacing="6">
+                            <Label Text="Stock:" FontSize="16" VerticalOptions="Center" TextColor="Black" />
+                            <Label Text="" FontSize="16" VerticalOptions="Center" x:Name="lbl_Stock" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <!-- Divider more visible between Origin and Destino -->
+            <BoxView HeightRequest="2" BackgroundColor="#B0B0B0" Margin="0,12,0,0" />
+
+            <Frame Padding="10" Margin="0,12,0,0" CornerRadius="15" BorderColor="LightPink">
+                <StackLayout Spacing="12">
+                    <Label Text="Destino" TextColor="Red" FontSize="16" HorizontalOptions="Center" />
+
+                    <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Text="Ubicación:" VerticalOptions="Center" />
+                        <Entry Keyboard="Text"
+                               Placeholder="|||  Leer ubicación destino  |||"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="Start"
+                               x:Name="txt_DestinoUbicacion"
+                               Completed="txt_DestinoUbicacion_Completed"
+                               />
+
+                        <Button Text=""
+                                ImageSource="BarCodeMini2.png"
+                                BackgroundColor="WhiteSmoke"
+                                CornerRadius="10"
+                                x:Name="btnLeerDestino"
+                                HorizontalOptions="Start"
+                                Clicked="btnLeerDestino_Clicked"
+                                />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                        <Label Text="Lote:" VerticalOptions="Center" />
+                        <Entry Keyboard="Text"
+                               Placeholder="|||  Leer lote destino  |||"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="Start"
+                               x:Name="txt_DestinoLote"
+                               Completed="txt_DestinoLote_Completed"
+                               />
+
+                        <Button Text=""
+                                ImageSource="BarCodeMini2.png"
+                                BackgroundColor="WhiteSmoke"
+                                CornerRadius="10"
+                                x:Name="btnLeerDestinoLote"
+                                HorizontalOptions="Start"
+                                Clicked="btnLeerDestinoLote_Clicked"
+                                />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,0" VerticalOptions="Center">
+                        <Label Text="Cantidad a mover:" HorizontalOptions="Start" VerticalTextAlignment="Center" />
+                        <Frame Padding="0" HorizontalOptions="FillAndExpand">
+                            <Entry Keyboard="Numeric"
+                                   Placeholder="                            "
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="CenterAndExpand"
+                                   x:Name="txt_CantidadMover"
+                                   Completed="txt_CantidadMover_Completed"
+                                   />
+                        </Frame>
+                        <Label x:Name="lbl_MaxCantidad" Text="" FontSize="14" TextColor="DarkBlue" VerticalOptions="Center" HorizontalOptions="End" />
+                    </StackLayout>
+
+                    <Button Text="Mover"
+                            BackgroundColor="WhiteSmoke"
+                            CornerRadius="10"
+                            Margin="0,10,0,0"
+                            x:Name="btnMover"
+                            Clicked="btnMover_Clicked"
+                            />
+                </StackLayout>
+            </Frame>
+
+            <!-- Divider before final actions -->
+            <BoxView HeightRequest="2" BackgroundColor="#B0B0B0" Margin="0,12,0,0" />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

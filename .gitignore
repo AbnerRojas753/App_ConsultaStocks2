@@ -1,0 +1,39 @@
+# Visual Studio
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+*.v12.suo
+*.v11.suo
+*.v10.suo
+
+# Xamarin/MAUI
+*.apk
+*.ipa
+*.app
+.DS_Store
+*.dSYM/
+
+# Logs
+hs_err_pid*.log
+
+# NuGet
+packages/
+*.nuget.props
+*.nuget.targets
+project.assets.json
+project.nuget.cache
+
+# MSBuild
+*.suo
+*.user
+*.userprefs
+*.sln.docstates
+*.userosscache
+*.dbmdl
+*.opendb
+*.ide

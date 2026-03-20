@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Producto_Ubicaciones_ProdSinUbicacion">
+    <ContentPage.Content>
+        <StackLayout Spacing="0" Margin="0,0,0,0">
+
+            <Label Text="Productos Sin Ubicacion"
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                           >
+
+            </Label>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreSede"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreAlmacen"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+            </StackLayout>
+
+
+
+            <StackLayout Orientation="Horizontal"  Margin="0,0,0,0" >
+                <Label FontSize="18"  Text="Selecciona un tipo:" HorizontalOptions="Start" />
+
+                <RadioButton FontSize="14"  x:Name="Tipo1RadioButton" GroupName="TipoGroup" Content="SIN UBICA" HorizontalOptions="Start" CheckedChanged="OnRadioButtonCheckedChanged" />
+                <RadioButton FontSize="14"  x:Name="Tipo2RadioButton" GroupName="TipoGroup" Content="SIN UB. CAJAS"  HorizontalOptions="Start"  CheckedChanged="OnRadioButtonCheckedChanged" />
+
+
+                <!--<Button Text="Aceptar"  />-->
+            </StackLayout>
+
+            <StackLayout Margin="0,20,0,0" >
+
+                <Grid  Padding="0" ColumnSpacing="0" x:Name="GridUbicaciones"  BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Cod"  Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Producto"         Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Stock"           Grid.Column="2" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView   Margin="0,0,0,0"
+                                    x:Name="LV_ListaUbicaciones" 
+                                    BackgroundColor="Transparent"                                
+                                >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="3" ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="18*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label FontSize="12" Text="{Binding ID_UBICACION}"    Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding DESCRIPCION}"           Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label FontSize="12" Text="{Binding STOCK}"             Grid.Column="2" Grid.Row="0" HorizontalOptions="End" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+
+            <StackLayout>
+                <Label Text="Agregar o modificar datos de ubicación: "
+                           Margin="0,0,0,0"
+                           TextColor="IndianRed"
+                           >
+                </Label>
+
+            </StackLayout>
+
+
+
+
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,10">
+
+                <!---->
+                <Button Text="Agregar Ubic"  x:Name="Btn_AgregarUbica"   Clicked="Btn_SinUbica_Clicked" HorizontalOptions="CenterAndExpand">
+                </Button>
+
+
+            </StackLayout>
+        </StackLayout>
+
+
+    </ContentPage.Content>
+</ContentPage>

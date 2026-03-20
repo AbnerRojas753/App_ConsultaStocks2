@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.app_consultastocks1" android:installLocation="preferExternal">
+	<uses-sdk android:minSdkVersion="20" android:targetSdkVersion="32" />
+	<application android:label="PDA" android:theme="@style/MainTheme" android:icon="@mipmap/iconf"></application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+	<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+</manifest>

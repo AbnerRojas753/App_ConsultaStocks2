@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.RepartoCargaVehiculos">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <StackLayout Margin="0,10,0,0">
+                <Label Text="Reparto - Carga de Vehículos"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       TextColor="Red" />
+            </StackLayout>
+
+            <Frame Padding="8" CornerRadius="15" Margin="0,10,0,0" BorderColor="Gainsboro">
+                <StackLayout>
+                    <!-- Selector de Fecha de Reparto -->
+                    <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Text="Fecha de Reparto:" FontSize="16" VerticalOptions="Center" />
+                        <DatePicker x:Name="datePickerFechaReparto"
+                                    HorizontalOptions="FillAndExpand"
+                                    Format="dd/MM/yyyy"
+                                    DateSelected="datePickerFechaReparto_DateSelected" />
+                    </StackLayout>
+
+                    <!-- Fila 3: Selector de Vehículo -->
+                    <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Text="Pedidos a cargar:" FontSize="14" VerticalOptions="Center" />
+                        <Picker x:Name="pickerVehiculo"
+                                Title="Seleccionar vehículo"
+                                HorizontalOptions="FillAndExpand"
+                                SelectedIndexChanged="pickerVehiculo_SelectedIndexChanged" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <Frame Padding="8" CornerRadius="15" Margin="0,10,0,0" BorderColor="LightPink">
+                <StackLayout>
+                    <Grid Padding="0" ColumnSpacing="0" BackgroundColor="WhiteSmoke">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.20*"/>
+                            <ColumnDefinition Width="0.65*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Empresa" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" TextColor="Black" FontSize="Small"/>
+                        <Label Text="Cliente - Dirección" Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black" FontSize="Small"/>
+                        <Label Text="Pendientes / Total" Grid.Column="2" Grid.Row="0" HorizontalOptions="Start" TextColor="Black" FontSize="Small"/>
+                    </Grid>
+
+                    <ListView x:Name="listViewPedidos" 
+                              HasUnevenRows="True" 
+                              BackgroundColor="Transparent" 
+                              ItemTapped="listViewPedidos_ItemTapped" 
+                              SeparatorVisibility="Default" 
+                              SeparatorColor="#444444">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="2" ColumnSpacing="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.20*"/>
+                                            <ColumnDefinition Width="0.50*"/>
+                                            <ColumnDefinition Width="0.15*"/>
+                                            <ColumnDefinition Width="0.15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackLayout Grid.Column="0" Grid.Row="0" Spacing="0">
+                                            <Label Text="{Binding FUENTE}" 
+                                                   FontSize="Small" 
+                                                   LineBreakMode="TailTruncation" 
+                                                   FontAttributes="Bold" />
+                                            <Label Text="{Binding MARCA_VEHICULO}" 
+                                                   FontSize="Micro" 
+                                                   TextColor="Gray" />
+                                        </StackLayout>
+                                        
+                                        <StackLayout Grid.Column="1" Grid.Row="0" Spacing="0">
+                                            <Label Text="{Binding NOMBRE_CLIENTE}" 
+                                                   FontSize="Small" 
+                                                   LineBreakMode="TailTruncation" 
+                                                   FontAttributes="Bold" />
+                                            <Label Text="{Binding IDDIRECCION}" 
+                                                   FontSize="Micro" 
+                                                   TextColor="Gray" />
+                                        </StackLayout>
+
+                                        <Label Text="{Binding TOTAL_BULTOS}" 
+                                               Grid.Column="2" 
+                                               Grid.Row="0" 
+                                               HorizontalOptions="Center" 
+                                               FontSize="Small" 
+                                               FontAttributes="Bold" />
+
+                                        <Label Text="{Binding BULTOS_PENDIENTES}" 
+                                               Grid.Column="3" 
+                                               Grid.Row="0" 
+                                               HorizontalOptions="Center" 
+                                               FontSize="Small" 
+                                               FontAttributes="Bold" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Button Text="Cargar Pedido" 
+                            x:Name="btnCargarPedido" 
+                            Clicked="btnCargarPedido_Clicked" 
+                            BackgroundColor="WhiteSmoke" 
+                            CornerRadius="10" 
+                            Margin="0,8,0,0" />
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

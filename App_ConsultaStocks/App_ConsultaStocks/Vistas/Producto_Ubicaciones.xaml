@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Producto_Ubicaciones"
+             >
+
+    <ContentPage.Content>
+        <StackLayout Spacing="0" Margin="0,0,0,0">
+
+            <Label Text="Ubicaciones de Productos"
+                   Margin="0,0,0,10"
+                   FontSize="18"   
+                   HorizontalOptions="Center"
+                   TextColor="Red"
+                           >
+
+            </Label>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreSede"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label Text=""
+                       TextColor="Black"
+                       x:Name="lblNombreAlmacen"
+                       FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+            </StackLayout>
+
+
+            <StackLayout Orientation="Vertical" Margin="0,5,0,0">
+
+                <StackLayout Orientation="Horizontal">
+                    <Label  Text="Producto:  "
+                        TextColor="IndianRed"
+                       
+                        VerticalOptions="CenterAndExpand"
+                               />
+                    <Frame CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="0">
+                        <Entry Keyboard="Numeric" Margin="0,0,0,0" 
+                               Placeholder="  |||| Leer código de barras  |||| "
+                               x:Name="txtcodigobarras" 
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="CenterAndExpand"
+                               FontSize="15"
+                               Completed="txtcodigobarras_Completed"
+                             
+                               />
+                    </Frame>
+                    <Button Text="" 
+                                ImageSource="BarCodeMini.png"
+                                BackgroundColor="WhiteSmoke"
+                                CornerRadius="10"
+                                x:Name="btnLeerCodBar"
+                                Clicked="btnLeerCodBar_Clicked"
+                                TextTransform="None"
+                                HorizontalOptions="StartAndExpand"
+                           />
+                </StackLayout>
+
+                <Label Text="Descripción:"
+                            FontSize="18"
+                           />
+
+
+                <Label TextColor="Black"
+                            Text=""
+                            FontSize="18"
+                            FontAttributes="None" 
+                            x:Name="lblDescripcionProducto"
+                       
+                           />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Text="SKU:"
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label TextColor="Black"
+                            Text="               "
+                            FontSize="18"
+                            FontAttributes="None" 
+                            x:Name="Lbl_Codigo"                            
+                       />
+
+
+
+            </StackLayout>
+
+            <StackLayout>
+
+                <Grid  Padding="0" ColumnSpacing="0" x:Name="GridUbicaciones"  BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Id Ubicación"  Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Lote"          Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Stock"         Grid.Column="2" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Max"           Grid.Column="3" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+                    <Label Text="Min"           Grid.Column="4" Grid.Row="0" HorizontalOptions="End" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView Margin="0,0,0,0"
+                          x:Name="LV_ListaUbicaciones" 
+                          BackgroundColor="Transparent">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="3" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding ID_UBICACION}" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding ID_LOTE}"      Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding STOCK}"        Grid.Column="2" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding MAX}"          Grid.Column="3" Grid.Row="0" HorizontalOptions="End" />
+                                    <Label Text="{Binding MIN}"          Grid.Column="4" Grid.Row="0" HorizontalOptions="End" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+
+            <BoxView   VerticalOptions="Center"           
+                       HorizontalOptions="Center"
+                       HeightRequest="1"
+                       WidthRequest="510"
+                       Color="#5b5d68">
+
+            </BoxView>
+
+            <!--<StackLayout>
+                <Label Text="Agregar o modificar datos de ubicación: "
+                           Margin="0,0,0,0"
+                           TextColor="IndianRed"
+                           >
+                </Label>
+
+                
+                
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                        <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">
+                            <Entry Keyboard="Text" Margin="0,0,0,0"                                     
+                                   Placeholder="  |||| Id. de ubicación |||| "                               
+                                   x:Name="txtIdUbicacion"  
+                                   FontSize="15"
+                                   Completed="txtIdUbicacion_Completed"                                
+                                   HorizontalTextAlignment="Center"
+                              
+                               />
+                        </Frame>
+                    <Button Text="" 
+                            ImageSource="BarCodeMini.png"
+                            BackgroundColor="WhiteSmoke"
+                            CornerRadius="10"
+                            x:Name="btnLeerUbicacion"
+                            Clicked="btnLeerUbicacion_Clicked"
+                            TextTransform="None"
+                            HorizontalOptions="StartAndExpand"
+                           />
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="                                        " HorizontalOptions="FillAndExpand" Margin="0,15,0,0" TextColor="Black" x:Name="lbl_IdUbicacion" ></Label>
+
+                    <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">                        
+                            <Entry Keyboard="Numeric" Margin="0,0,0,0"                                
+                                   Placeholder="Máximo"                           
+                                   x:Name="TxtMaximo"
+                                   FontSize="15"
+                                   HorizontalTextAlignment="Center"                               
+                                    
+                                   />                    
+                       
+                    </Frame>
+                    
+                        
+                    <Frame CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="0">                        
+                            
+                        <Entry Keyboard="Numeric" Margin="0,0,0,0"                            
+                                   Placeholder="Mínimo"                           
+                                   x:Name="TxtMinimo"    
+                                   FontSize="15"
+                                   HorizontalTextAlignment="Center"                           
+                                  
+                               />                    
+                        
+                    </Frame>
+
+
+                </StackLayout>
+
+            </StackLayout>
+          
+
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,10">
+
+                <Button Text="Guardar datos"  x:Name="Btn_GuardarDatos" Clicked="Btn_GuardarDatos_Clicked" HorizontalOptions="CenterAndExpand">
+                    
+                </Button>
+
+                <Button Text="Eliminar"  x:Name="Btn_EliminarDatos" Clicked="Btn_EliminarDatos_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+
+                <Button Text="Limpiar" x:Name="Btn_Limpiar" Clicked="Btn_Limpiar_Clicked" HorizontalOptions="CenterAndExpand">
+
+                </Button>
+                
+
+            </StackLayout>-->
+        </StackLayout>
+
+
+
+
+    </ContentPage.Content>
+</ContentPage>

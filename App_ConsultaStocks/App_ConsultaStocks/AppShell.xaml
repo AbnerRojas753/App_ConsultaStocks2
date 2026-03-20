@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+       xmlns:local="clr-namespace:App_ConsultaStocks.Vistas"
+       Title="PDA"
+       x:Class="App_ConsultaStocks.AppShell"
+       FlyoutBackgroundColor="White"
+       Shell.NavBarIsVisible="True"
+       >
+
+     
+
+     <Shell.FlyoutHeader>
+        <Grid Padding="20" BackgroundColor="{Binding ColorHeader}">
+            <Frame BackgroundColor="White"
+                   CornerRadius="10"
+                   Padding="20"
+                   HasShadow="True"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <Image x:Name="ImgLogoFlyout"
+                       Source="{Binding LogoSource}"
+                       HeightRequest="80"
+                       WidthRequest="120"
+                       Aspect="AspectFit"/>
+            </Frame>
+        </Grid>
+     </Shell.FlyoutHeader>
+
+
+    <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"/>
+    </ShellItem>
+
+    <FlyoutItem Title="Página Inicial">
+        <ShellContent Title="MenuPrincipal" ContentTemplate="{DataTemplate local:MenuPrincipal}" Route="MenuPrincipal"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Stocks de productos">
+        <ShellContent Title="Producto" ContentTemplate="{DataTemplate local:Producto_ConsultaDatos}" Route="Producto_ConsultaDatos"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Ubicación de productos">
+        <ShellContent Title="Producto_Ubicaciones" ContentTemplate="{DataTemplate local:Producto_Ubicaciones_SelecCD}" Route="Producto_Ubicaciones_SelecCD"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Picking ">
+        <ShellContent Title="Pedido_Picking" ContentTemplate="{DataTemplate local:Pedido_Picking_SelecCD}" Route="Pedido_Picking_SelecCD"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Picking Reposición Almacén">
+        <ShellContent Title="Pedido_RepAlm_Picking" ContentTemplate="{DataTemplate local:Pedido_RepAlm_SelecCD}" Route="Pedido_RepAlm_SelecCD"/>
+    </FlyoutItem>
+
+    
+    <FlyoutItem Title="WMS - Recepción de Mercadería">
+        <ShellContent Title="WMS_Recepcion" ContentTemplate="{DataTemplate local:WMS_RecepcionMercaderia_SelecCD}" Route="WMS_RecepcionMercaderia_SelecCD"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="App - Update aplicación">
+        <ShellContent Title="Update_aplicacion" ContentTemplate="{DataTemplate local:APP_Update}" Route="APP_Update"/>
+
+    </FlyoutItem>
+
+    <FlyoutItem Title="Movimiento de Stock">
+        <ShellContent Title="MovimientoStock" ContentTemplate="{DataTemplate local:MovimientoStock_SelecCD}" Route="MovimientoStock_SelecCD"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Reparto - Carga de Vehículos">
+        <ShellContent Title="RepartoCargaVehiculos" ContentTemplate="{DataTemplate local:RepartoCargaVehiculos}" Route="RepartoCargaVehiculos"/>
+    </FlyoutItem>
+
+    
+
+    <Shell.FlyoutFooter>
+        <StackLayout Padding="30">
+            <Button Text="Salir" Clicked="Button_Clicked"/>
+
+        </StackLayout>
+    </Shell.FlyoutFooter>
+   
+
+</Shell>

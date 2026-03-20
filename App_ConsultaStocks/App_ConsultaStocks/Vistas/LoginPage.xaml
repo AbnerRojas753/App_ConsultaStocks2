@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.LoginPage"
+             Background="white"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+             >
+           
+    
+    <ContentPage.Content>
+        <StackLayout x:Name="StackFondo" >
+
+
+            <Frame  VerticalOptions="FillAndExpand" BackgroundColor="White"
+                    Margin="1" 
+                    CornerRadius="15"
+                >
+
+                <StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,0,180" >
+
+
+                    <Image x:Name="ImgLogo" Margin="0,0,0,40" Source="LogoAlfa.png" />
+
+                    <Label Text="Empresa:" FontSize="16" Margin="0,0,0,5" />
+                    <Picker x:Name="PickerEmpresa" Title="Seleccionar Empresa"
+                            SelectedIndexChanged="PickerEmpresa_SelectedIndexChanged"
+                            Margin="0,0,0,20">
+                        <Picker.Items>
+                            <x:String>ALFA</x:String>
+                            <x:String>TORU</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <Entry x:Name="TxtIdUsuario" Placeholder="Id. de usuario"  ></Entry>
+                    <Entry x:Name="TxtPassword" Placeholder="Password" IsPassword="True" ></Entry>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,10,0,10">
+                        <CheckBox x:Name="CheckServidorRemoto"
+                                  CheckedChanged="CheckServidorRemoto_CheckedChanged"
+                                  VerticalOptions="Center"/>
+                        <Label Text="Servidor Remoto"
+                               VerticalOptions="Center"
+                               Margin="10,0,0,0"/>
+                    </StackLayout>
+
+                    <Button Text="Iniciar sesión" VerticalOptions="Center" CornerRadius="30" BackgroundColor="WhiteSmoke"
+                             Clicked="Button_Clicked"
+                            ></Button>
+                    <StackLayout Orientation="Horizontal" >
+                        <Label Text="Recuperar contraseña?"/>
+                        <Label Text="Registrarse" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
+                        <Label Text="Versión : 06/03/2026 0.1"/>
+                    </StackLayout>
+
+
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

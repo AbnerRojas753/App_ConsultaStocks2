@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.Pedido_Picking_SelecCD">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <StackLayout Margin="0,10,0,0">
+
+                <Label Text="Seleccione Sede"
+                       FontSize="Medium"
+                       Margin="0,0,0,10"
+                       HorizontalOptions="Center"
+                       TextColor="Red"
+                           />
+            </StackLayout>
+
+
+            <StackLayout Margin="0,10,0,0">
+                <Label Text="Sede: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_CD"  HorizontalOptions="FillAndExpand"
+                        SelectedIndexChanged="ItemPicker_CD_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+
+
+            <StackLayout Margin="0,10,0,0">
+
+                <Label Text="Almacén: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+                <Picker x:Name="ItemPicker_Almacen" HorizontalOptions="FillAndExpand" 
+                        SelectedIndexChanged="ItemPicker_Almacen_SelectedIndexChanged"
+                        Title="Seleccione" TitleColor="Black">
+                </Picker>
+            </StackLayout>
+              
+            <StackLayout Margin="0,40,0,0" Orientation="Horizontal">
+                <Label Text="Id de picador: "
+                               FontSize="18"   
+                               VerticalOptions="Center"
+                               />
+
+                <Frame  Padding="0" CornerRadius="0" HorizontalOptions="Start">
+                    <Entry Keyboard="Numeric"
+                           Placeholder="        "
+                           HorizontalOptions="EndAndExpand"
+                           HorizontalTextAlignment="Center"
+                           
+                           x:Name="txtIdPicador"
+                           FontSize="18"
+                           Completed="txtIdPicador_Completed"
+                           />
+                </Frame>
+                <Button Text="Ir a Picking" VerticalOptions="StartAndExpand"  HorizontalOptions="FillAndExpand" CornerRadius="10"
+                        x:Name="Btn_IraPicking"
+                        Clicked="Btn_IraPicking_Clicked">
+
+
+                </Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="         Nombre: "
+                               FontSize="18"   
+                               VerticalOptions="CenterAndExpand"
+                               />
+
+                <Label x:Name="lbl_NombrePicador" TextColor="Black" FontSize="18" />
+
+            </StackLayout>
+
+            <StackLayout Margin="0,20,0,0" Orientation="Horizontal">
+                <Label Text="Procesos pendientes:  "
+                       TextColor="LightCoral"
+                       VerticalOptions="CenterAndExpand"
+                               />
+                <Label x:Name="lbl_CantProcesosPendientes"
+                                           />
+
+
+            </StackLayout>
+            <StackLayout>
+
+                <Grid  Padding="0" ColumnSpacing="0" x:Name="GridProcesosPendienres"  BackgroundColor="WhiteSmoke">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Id. Picking"  Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Nro Pedido"   Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+                    <Label Text="Hora Inicio"  Grid.Column="2" Grid.Row="0" HorizontalOptions="Start" TextColor="Black"/>
+
+                </Grid>
+
+                <ListView   Margin="0,0,0,0"
+                                    x:Name="LV_ProcesosPendientes" 
+                                    BackgroundColor="Transparent"                                
+                                >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="3" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding ID_PICKING}"    Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding NROPEDIDO}"     Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" />
+                                    <Label Text="{Binding HORA_INICIO}"   Grid.Column="2" Grid.Row="0" HorizontalOptions="Start" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Button Text="Continuar Picking" VerticalOptions="Start"  HorizontalOptions="FillAndExpand" CornerRadius="10"
+                    x:Name="Btn_ContinuarPicking"
+                    Clicked="Btn_ContinuarPicking_Clicked">
+
+            </Button>
+
+            <StackLayout>
+             
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

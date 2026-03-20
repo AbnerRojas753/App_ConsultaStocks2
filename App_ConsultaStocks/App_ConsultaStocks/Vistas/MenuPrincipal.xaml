@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_ConsultaStocks.Vistas.MenuPrincipal">
+
+    <Grid>
+        <StackLayout BackgroundColor="#fff"  >
+            <Frame VerticalOptions="FillAndExpand" CornerRadius="15" BackgroundColor="#ffff" >
+                <StackLayout Padding="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  BackgroundColor="#fff" Margin="0,0,0,0" >
+                    <Image x:Name="ImgLogoMenu" Margin="0,0,0,40" />
+                </StackLayout>
+
+
+
+
+
+            </Frame>
+               
+            
+            
+        </StackLayout>
+        
+    </Grid>
+
+</ContentPage>
