@@ -42,13 +42,14 @@ $Config = @{
     Configuration  = "Release"
     Platform       = "AnyCPU"
     
-    # Keystore - DEBUG (para uso interno)
-    # Para uso interno/desarrollo: usa debug.keystore (ya viene con Android)
-    # Para Play Store: debes crear un keystore de produccion propio
+    # Keystore
+    # Opcion 1: DEBUG - Usa el keystore por defecto de Android (no pide password)
+    # Opcion 2: PRODUCCION - Usa tu propio keystore (el script te preguntara la password)
     KeystorePath   = "$env:USERPROFILE\.android\debug.keystore"
-    KeystorePass   = "android"
+    KeystorePass   = "android"  # Si usas debug.keystore, dejar asi
     KeyAlias       = "androiddebugkey"
-    KeyPass        = "android"
+    KeyPass        = "android"  # Si usas debug.keystore, dejar asi
+    AskForPassword = $false     # Cambiar a $true si quieres que pregunte la password
     
     # Opciones de build
     IncrementVersionCode = $true    # Incrementar versionCode automaticamente
@@ -376,6 +377,20 @@ try {
         $continue = Read-Host "Continuar de todos modos? (S/N)"
         if ($continue -ne 'S' -and $continue -ne 's') {
             exit 0
+        }
+    }
+    
+    # Preguntar password si esta configurado
+    if ($Config.AskForPassword) {
+        Write-Host ""
+        Write-Host "Introduce las credenciales del keystore:" -ForegroundColor Yellow
+        if ($Config.KeystorePath -and (Test-Path $Config.KeystorePath)) {
+            Write-Host "Usando: $($Config.KeystorePath)" -ForegroundColor Gray
+        }
+        $Config.KeystorePass = Read-Host "Password del keystore" -AsSecureString | ForEach-Object { [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_)) }
+        $Config.KeyPass = Read-Host "Password del alias (Enter si es igual)" -AsSecureString | ForEach-Object { 
+            $pass = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_))
+            if ([string]::IsNullOrWhiteSpace($pass)) { $Config.KeystorePass } else { $pass }
         }
     }
     
